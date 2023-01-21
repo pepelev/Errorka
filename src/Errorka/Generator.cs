@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Globalization;
+using System.Text;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -65,34 +66,111 @@ namespace Errorka
                     return;
                 }
 
-                var classSymbols = classes.Distinct().Select(
-                    classDeclaration =>
-                    {
-                        var model = compilation.GetSemanticModel(classDeclaration.SyntaxTree);
-                        // todo may return null
-                        return model.GetDeclaredSymbol(classDeclaration);
-                    }
-                ).Distinct(SymbolEqualityComparer.Default);
+                var declarations = classes.Distinct().Select(
+                    declaration => ClassDeclaration.TryCreate(compilation, declaration)!
+                ).Where(declaration => declaration != null);
+                var parts = ClassDeclaration.Parts.Join(declarations).ToList();
 
-                foreach (var symbol in classSymbols)
+                var output = new Output();
+                foreach (var part in parts)
                 {
-                    var builder = new StringBuilder();
-                    builder.AppendLine($"namespace {symbol.ContainingNamespace} {{");
+                    var index = Index().ToList();
 
-                    builder.AppendLine($"partial class {symbol.Name} {{");
+                    output.Clear();
+                    PrintCodeEnum();
+                    context.AddSource($"{part.Symbol}.Code.g.cs", output.ToString());
 
-                    builder.AppendLine("public sealed class Result {");
+                    output.Clear();
+                    PrintResultClass();
+                    context.AddSource($"{part.Symbol}.Result.g.cs", output.ToString());
 
-                    builder.AppendLine("private readonly uint code;");
+                    void PrintCodeEnum()
+                    {
+                        using (output.OpenNamespace(part.Symbol.ContainingNamespace))
+                        {
+                            using (output.OpenPartialClass(part.Symbol))
+                            {
+                                using (output.OpenEnum("Code"))
+                                {
+                                    foreach (var (_, name, code) in index)
+                                    {
+                                        output.EnumMember(name, code);
+                                    }
+                                }
+                            }
+                        }
+                    }
 
-                    builder.AppendLine("}");
+                    void PrintResultClass()
+                    {
+                        using (output.OpenNamespace(part.Symbol.ContainingNamespace))
+                        {
+                            using (output.OpenPartialClass(part.Symbol))
+                            {
+                                using (output.OpenStruct("Result"))
+                                {
+                                    output.Constructor("Result", part.Symbol);
+                                    output.GetAutoProperty($"global::{part.Symbol}.Code", "Code");
+                                    output.GetAutoProperty("global::System.Object", "Value");
 
-                    builder.AppendLine("}");
+                                    foreach (var (method, name, code) in index)
+                                    {
+                                        output.Line($"public static global::{part.Symbol}.Result {name}() {{ return new global::{part.Symbol}.Result(global::{part.Symbol}.Code.{name}, global::{part.Symbol}.{name}()); }}");
 
-                    builder.AppendLine("}");
+                                        output.Write("public global::System.Boolean Is");
+                                        output.Write(name);
+                                        output.Write("([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out ");
+                                        output.Write(method.ReturnType);
+                                        output.Write(" value)");
+                                        output.End();
 
-                    var s = builder.ToString();
-                    context.AddSource($"{symbol}.g.cs", s);
+                                        using (output.OpenBlock())
+                                        {
+                                            output.Write("value = this.Value as ");
+                                            output.Write(method.ReturnType);
+                                            output.Write(";");
+                                            output.End();
+                                            output.Write("return this.Code == ");
+                                            output.Write(part.Symbol);
+                                            output.Write(".Code.");
+                                            output.Write(name);
+                                            output.Write(";");
+                                            output.End();
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    IEnumerable<(Method Method, string Name, int Code)> Index()
+                    {
+                        var names = new Dictionary<string, int>(StringComparer.InvariantCultureIgnoreCase);
+                        var code = 1;
+                        foreach (var method in part.Methods())
+                        {
+                            if (names.TryGetValue(method.Name, out var timesUsed))
+                            {
+                                var guessNumber = (timesUsed + 1).ToString(CultureInfo.InvariantCulture);
+                                var guessName = $"{method.Name}_{guessNumber}";
+                                while (names.ContainsKey(guessName))
+                                {
+                                    guessName += "x";
+                                }
+
+                                names[method.Name] = timesUsed + 1;
+                                names[guessName] = 1;
+                                yield return (method, guessName, code);
+                            }
+                            else
+                            {
+                                names[method.Name] = 1;
+                                yield return (method, method.Name, code);
+                            }
+
+                            code++;
+                        }
+                    }
                 }
             }
         );

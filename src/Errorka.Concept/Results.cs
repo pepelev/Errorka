@@ -21,7 +21,7 @@ public static partial class Results
 
     [Area("Access")]
     [Area("Users")]
-    private static string AccessDenied() => "access-denied";
+    private static object AccessDenied() => "access-denied";
 
     [Area("Resources")]
     private static (string Code, int UserId) ResourceLocked(int userId) =>
