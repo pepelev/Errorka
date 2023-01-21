@@ -3,6 +3,8 @@
 [Result]
 public partial class Results
 {
+    [Area("Memory")]
+    [Area("Disk")]
     private static bool MemoryFailed()
     {
         return Code.MemoryFailed == Code.MemoryFailed;
@@ -13,6 +15,7 @@ public partial class Results
         return (Code.MemoryFailed == Code.MemoryFailed).ToString();
     }
 
+    [Area("Disk")]
     private static string DiskFailed()
     {
         if (Result.DiskFailed().IsDiskFailed(out var str))

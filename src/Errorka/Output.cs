@@ -80,7 +80,8 @@ internal sealed class Output
 
     public void Constructor(string typeName, INamedTypeSymbol rootType)
     {
-        WriteLine("[global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]");
+        Write("[global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]");
+        EndLine();
         buffer
             .Append('\t', indent)
             .Append("internal @")
@@ -90,8 +91,10 @@ internal sealed class Output
             .AppendLine(".Code code, global::System.Object value)");
         using (OpenBlock())
         {
-            WriteLine("this.Code = code;");
-            WriteLine("this.Value = value;");
+            Write("this.Code = code;");
+            EndLine();
+            Write("this.Value = value;");
+            EndLine();
         }
     }
 

@@ -24,4 +24,10 @@ internal static class SequenceExtensions
 
         return true;
     }
+
+    public static IEnumerable<T> NotNull<T>(this IEnumerable<T?> sequence)
+        where T : class
+    {
+        return sequence.Where(item => item != null)!;
+    }
 }

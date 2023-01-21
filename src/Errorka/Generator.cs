@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Diagnostics;
+using System.Text;
 using Errorka.Contents;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -75,22 +76,68 @@ namespace Errorka
                 foreach (var part in parts)
                 {
                     var variants = part.Methods()
-                        .GroupBy(method => method.Name, StringComparer.InvariantCulture)
+                        .GroupBy(method => method.Name, StringComparer.Ordinal)
                         .Indexed(startIndex: 1)
                         .Select(
-                            group => new
-                            {
-                                Name = group.Item.Key,
+                            group => new Variant(
+                                group.Item.Key,
                                 group.Index,
-                                Methods = group.Item.AsEnumerable(),
-                                // todo refactor
-                                Type = group.Item.Select(method => method.ReturnType).AllEquals(SymbolEqualityComparer.Default)
+                                group.Item.AsEnumerable(),
+                                group.Item.Select(method => method.ReturnType).AllEquals(SymbolEqualityComparer.Default)
                                     ? group.Item.First().ReturnType.SpecialType == SpecialType.System_Void
                                         ? compilation.GetSpecialType(SpecialType.System_Object)
                                         : group.Item.First().ReturnType
-                                    : compilation.GetSpecialType(SpecialType.System_Object)
-                            }
+                                    : compilation.GetSpecialType(SpecialType.System_Object),
+                                new HashSet<string>(
+                                    group.Item.SelectMany(method => method.Areas),
+                                    StringComparer.Ordinal
+                                )
+                            )
                         ).ToList();
+
+                    var maxIndex = variants.Max(variant => variant.Index);
+                    var decreasingAreas = variants
+                        .SelectMany(variant => variant.Areas, (variant, area) => (variant, Area: area))
+                        .GroupBy(
+                            pair => pair.Area,
+                            pair => pair.variant,
+                            (area, areaVariants) =>
+                            {
+                                var variantList = areaVariants.ToList();
+                                var indexList = variantList
+                                    .Select(variant => variant.Index)
+                                    .Distinct()
+                                    .ToList();
+                                var set = new IntSet(maxIndex, indexList);
+                                return (Area: area, indexList.Count, Variants: variantList, Set: set);
+                            }
+                        ).OrderByDescending(triple => triple.Count).ThenBy(triple => triple.Area, StringComparer.Ordinal)
+                        .ToList();
+
+                    var areaGoes = Yield().ToLookup(x => x.FromArea, x => x.ToArea);
+
+                    IEnumerable<(string FromArea, string ToArea)> Yield()
+                    {
+                        for (var i = 0; i < decreasingAreas.Count - 1; i++)
+                        {
+                            var aSet = decreasingAreas[i].Set;
+                            var aArea = decreasingAreas[i].Area;
+                            for (var j = i + 1; j < decreasingAreas.Count; j++)
+                            {
+                                var bSet = decreasingAreas[j].Set;
+                                if (aSet.IsSuperset(bSet))
+                                {
+                                    var bArea = decreasingAreas[j].Area;
+                                    yield return (bArea, aArea);
+
+                                    if (decreasingAreas[i].Count == decreasingAreas[j].Count)
+                                    {
+                                        yield return (aArea, bArea);
+                                    }
+                                }
+                            }
+                        }
+                    }
 
                     output.Clear();
                     PrintCodeEnum();
@@ -99,6 +146,13 @@ namespace Errorka
                     output.Clear();
                     PrintResultClass();
                     context.AddSource($"{part.Symbol}.Result.g.cs", output.ToString());
+
+                    foreach (var (area, _, variantList, _) in decreasingAreas)
+                    {
+                        output.Clear();
+                        PrintArea(area, variantList);
+                        context.AddSource($"{part.Symbol}.Areas.{area}.g.cs", output.ToString());
+                    }
 
                     void PrintCodeEnum()
                     {
@@ -129,78 +183,65 @@ namespace Errorka
                                     output.GetAutoProperty($"global::{part.Symbol}.Code", "Code");
                                     output.GetAutoProperty("global::System.Object", "Value");
 
-                                    foreach (var variant in variants)
-                                    {
-                                        foreach (var method in variant.Methods)
-                                        {
-                                            using (output.StartLine())
-                                            {
-                                                output.Write("public static ");
-                                                output.Write(part.Symbol);
-                                                output.Write(".Result ");
-                                                output.Write(variant.Name);
-                                                output.Write("(");
-                                                var parameters = output.Parameters();
-                                                foreach (var parameter in method.Parameters)
-                                                {
-                                                    parameters.Append(parameter);
-                                                }
-                                                output.Write(")");
-                                            }
-                                            using (output.OpenBlock())
-                                            {
-                                                using (output.StartLine())
-                                                {
-                                                    output.Write("return new ");
-                                                    output.Write(part.Symbol);
-                                                    output.Write(".Result(");
-                                                    var arguments = output.Arguments();
-                                                    arguments.Append(
-                                                        ContentFactory.From(
-                                                            ContentFactory.From(part.Symbol),
-                                                            ContentFactory.From("Code"),
-                                                            ContentFactory.From(variant.Name)
-                                                        )
-                                                    );
-                                                    arguments.Append(
-                                                        ContentFactory.Call(
-                                                            ContentFactory.From(
-                                                                ContentFactory.From(part.Symbol),
-                                                                ContentFactory.From(variant.Name)
-                                                            ),
-                                                            ContentFactory.ParametersArguments(method.Parameters)
-                                                        )
-                                                    );
-                                                    output.Write(");");
-                                                }
-                                            }
-                                        }
+                                    Creation(variants, output, part, "Result");
+                                }
+                            }
+                        }
+                    }
 
-                                        output.Write("public global::System.Boolean Is");
-                                        output.Write(variant.Name);
-                                        output.Write("([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out ");
-                                        output.Write(variant.Type);
-                                        output.Write(" value)");
-                                        output.EndLine();
+                    void PrintArea(string area, List<Variant> variantList)
+                    {
+                        using (output.OpenNamespace(part.Symbol.ContainingNamespace))
+                        {
+                            using (output.OpenPartialClass(part.Symbol))
+                            {
+                                using (output.OpenStruct(area))
+                                {
+                                    output.Constructor(area, part.Symbol);
+                                    output.GetAutoProperty($"global::{part.Symbol}.Code", "Code");
+                                    output.GetAutoProperty("global::System.Object", "Value");
+
+                                    Creation(variants, output, part, area);
+
+                                    using (output.StartLine())
+                                    {
+                                        output.Write("public ");
+                                        output.Write(part.Symbol);
+                                        output.Write(".Result ToResult()");
+                                    }
+
+                                    using (output.OpenBlock())
+                                    {
+                                        using (output.StartLine())
+                                        {
+                                            output.Write("return new ");
+                                            output.Write(part.Symbol);
+                                            output.Write(".Result(this.Code, this.Value);");
+                                        }
+                                    }
+
+                                    foreach (var next in areaGoes[area])
+                                    {
+                                        using (output.StartLine())
+                                        {
+                                            output.Write("public ");
+                                            output.Write(part.Symbol);
+                                            output.Write(".@");
+                                            output.Write(next);
+                                            output.Write(" @To");
+                                            output.Write(next);
+                                            output.Write("()");
+                                        }
 
                                         using (output.OpenBlock())
                                         {
                                             using (output.StartLine())
                                             {
-                                                output.Write("value = this.Value is ");
-                                                output.Write(variant.Type);
-                                            
-                                                output.Write(" ? (");
-                                                output.Write(variant.Type);
-                                                output.Write(")this.Value : default;");
-                                            }
-                                            using (output.StartLine())
-                                            {
-                                                output.Write("return this.Code == ");
+                                                output.Write("return new ");
                                                 output.Write(part.Symbol);
-                                                output.Write(".Code.");
-                                                output.Write(variant.Name);
-                                                output.Write(";");
+                                                output.Write(".@");
+                                                output.Write(next);
+                                                output.Write("(this.Code, this.Value);");
                                             }
                                         }
                                     }
@@ -211,6 +252,93 @@ namespace Errorka
                 }
             }
         );
+
+        void Creation(List<Variant> variants, Output output, ClassDeclaration.Parts part, string returnType)
+        {
+            foreach (var variant in variants)
+            {
+                foreach (var method in variant.Methods)
+                {
+                    using (output.StartLine())
+                    {
+                        output.Write("public static ");
+                        output.Write(part.Symbol);
+                        output.Write(".@");
+                        output.Write(returnType);
+                        output.Write(" ");
+                        output.Write(variant.Name);
+                        output.Write("(");
+                        var parameters = output.Parameters();
+                        foreach (var parameter in method.Parameters)
+                        {
+                            parameters.Append(parameter);
+                        }
+
+                        output.Write(")");
+                    }
+
+                    using (output.OpenBlock())
+                    {
+                        using (output.StartLine())
+                        {
+                            output.Write("return new ");
+                            output.Write(part.Symbol);
+                            output.Write(".@");
+                            output.Write(returnType);
+                            output.Write("(");
+                            var arguments = output.Arguments();
+                            arguments.Append(
+                                ContentFactory.From(
+                                    ContentFactory.From(part.Symbol),
+                                    ContentFactory.From("Code"),
+                                    ContentFactory.From(variant.Name)
+                                )
+                            );
+                            arguments.Append(
+                                ContentFactory.Call(
+                                    ContentFactory.From(
+                                        ContentFactory.From(part.Symbol),
+                                        ContentFactory.From(variant.Name)
+                                    ),
+                                    ContentFactory.ParametersArguments(method.Parameters)
+                                )
+                            );
+                            output.Write(");");
+                        }
+                    }
+                }
+
+                using (output.StartLine())
+                {
+                    output.Write("public global::System.Boolean Is");
+                    output.Write(variant.Name);
+                    output.Write("([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out ");
+                    output.Write(variant.Type);
+                    output.Write(" value)");
+                }
+
+                using (output.OpenBlock())
+                {
+                    using (output.StartLine())
+                    {
+                        output.Write("value = this.Value is ");
+                        output.Write(variant.Type);
+                        output.Write(" ? (");
+                        output.Write(variant.Type);
+                        output.Write(")this.Value : default;");
+                    }
+
+                    using (output.StartLine())
+                    {
+                        output.Write("return this.Code == ");
+                        output.Write(part.Symbol);
+                        output.Write(".Code.");
+                        output.Write(variant.Name);
+                        output.Write(";");
+                    }
+                }
+            }
+        }
     }
 
     private static bool HasAttribute(
@@ -234,4 +362,22 @@ namespace Errorka
 
             return false;
         });
+}
+
+internal sealed class Variant
+{
+    public string Name { get; }
+    public int Index { get; }
+    public IEnumerable<Method> Methods { get; }
+    public ITypeSymbol Type { get; }
+    public HashSet<string> Areas { get; }
+
+    public Variant(string name, int index, IEnumerable<Method> methods, ITypeSymbol type, HashSet<string> areas)
+    {
+        Name = name;
+        Index = index;
+        Methods = methods;
+        Type = type;
+        Areas = areas;
+    }
 }
