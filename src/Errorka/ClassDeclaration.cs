@@ -5,7 +5,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Errorka;
 
-public sealed class ClassDeclaration
+internal sealed class ClassDeclaration
 {
     private readonly ClassDeclarationSyntax declaration;
     private readonly SemanticModel model;

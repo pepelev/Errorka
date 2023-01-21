@@ -1,5 +1,5 @@
-﻿using System.Globalization;
-using System.Text;
+﻿using System.Text;
+using Errorka.Contents;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -74,7 +74,23 @@ namespace Errorka
                 var output = new Output();
                 foreach (var part in parts)
                 {
-                    var index = Index().ToList();
+                    var variants = part.Methods()
+                        .GroupBy(method => method.Name, StringComparer.InvariantCulture)
+                        .Indexed(startIndex: 1)
+                        .Select(
+                            group => new
+                            {
+                                Name = group.Item.Key,
+                                group.Index,
+                                Methods = group.Item.AsEnumerable(),
+                                // todo refactor
+                                Type = group.Item.Select(method => method.ReturnType).AllEquals(SymbolEqualityComparer.Default)
+                                    ? group.Item.First().ReturnType.SpecialType == SpecialType.System_Void
+                                        ? compilation.GetSpecialType(SpecialType.System_Object)
+                                        : group.Item.First().ReturnType
+                                    : compilation.GetSpecialType(SpecialType.System_Object)
+                            }
+                        ).ToList();
 
                     output.Clear();
                     PrintCodeEnum();
@@ -92,9 +108,9 @@ namespace Errorka
                             {
                                 using (output.OpenEnum("Code"))
                                 {
-                                    foreach (var (_, name, code) in index)
+                                    foreach (var variant in variants)
                                     {
-                                        output.EnumMember(name, code);
+                                        output.EnumMember(variant.Name, variant.Index);
                                     }
                                 }
                             }
@@ -113,62 +129,83 @@ namespace Errorka
                                     output.GetAutoProperty($"global::{part.Symbol}.Code", "Code");
                                     output.GetAutoProperty("global::System.Object", "Value");
 
-                                    foreach (var (method, name, code) in index)
+                                    foreach (var variant in variants)
                                     {
-                                        output.Line($"public static global::{part.Symbol}.Result {name}() {{ return new global::{part.Symbol}.Result(global::{part.Symbol}.Code.{name}, global::{part.Symbol}.{name}()); }}");
+                                        foreach (var method in variant.Methods)
+                                        {
+                                            using (output.StartLine())
+                                            {
+                                                output.Write("public static ");
+                                                output.Write(part.Symbol);
+                                                output.Write(".Result ");
+                                                output.Write(variant.Name);
+                                                output.Write("(");
+                                                var parameters = output.Parameters();
+                                                foreach (var parameter in method.Parameters)
+                                                {
+                                                    parameters.Append(parameter);
+                                                }
+                                                output.Write(")");
+                                            }
+                                            using (output.OpenBlock())
+                                            {
+                                                using (output.StartLine())
+                                                {
+                                                    output.Write("return new ");
+                                                    output.Write(part.Symbol);
+                                                    output.Write(".Result(");
+                                                    var arguments = output.Arguments();
+                                                    arguments.Append(
+                                                        ContentFactory.From(
+                                                            ContentFactory.From(part.Symbol),
+                                                            ContentFactory.From("Code"),
+                                                            ContentFactory.From(variant.Name)
+                                                        )
+                                                    );
+                                                    arguments.Append(
+                                                        ContentFactory.Call(
+                                                            ContentFactory.From(
+                                                                ContentFactory.From(part.Symbol),
+                                                                ContentFactory.From(variant.Name)
+                                                            ),
+                                                            ContentFactory.ParametersArguments(method.Parameters)
+                                                        )
+                                                    );
+                                                    output.Write(");");
+                                                }
+                                            }
+                                        }
 
                                         output.Write("public global::System.Boolean Is");
-                                        output.Write(name);
+                                        output.Write(variant.Name);
                                         output.Write("([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out ");
-                                        output.Write(method.ReturnType);
+                                        output.Write(variant.Type);
                                         output.Write(" value)");
-                                        output.End();
+                                        output.EndLine();
 
                                         using (output.OpenBlock())
                                         {
-                                            output.Write("value = this.Value as ");
-                                            output.Write(method.ReturnType);
-                                            output.Write(";");
-                                            output.End();
-                                            output.Write("return this.Code == ");
-                                            output.Write(part.Symbol);
-                                            output.Write(".Code.");
-                                            output.Write(name);
-                                            output.Write(";");
-                                            output.End();
+                                            using (output.StartLine())
+                                            {
+                                                output.Write("value = this.Value is ");
+                                                output.Write(variant.Type);
+                                            
+                                                output.Write(" ? (");
+                                                output.Write(variant.Type);
+                                                output.Write(")this.Value : default;");
+                                            }
+                                            using (output.StartLine())
+                                            {
+                                                output.Write("return this.Code == ");
+                                                output.Write(part.Symbol);
+                                                output.Write(".Code.");
+                                                output.Write(variant.Name);
+                                                output.Write(";");
+                                            }
                                         }
                                     }
                                 }
                             }
-                        }
-                    }
-
-                    IEnumerable<(Method Method, string Name, int Code)> Index()
-                    {
-                        var names = new Dictionary<string, int>(StringComparer.InvariantCultureIgnoreCase);
-                        var code = 1;
-                        foreach (var method in part.Methods())
-                        {
-                            if (names.TryGetValue(method.Name, out var timesUsed))
-                            {
-                                var guessNumber = (timesUsed + 1).ToString(CultureInfo.InvariantCulture);
-                                var guessName = $"{method.Name}_{guessNumber}";
-                                while (names.ContainsKey(guessName))
-                                {
-                                    guessName += "x";
-                                }
-
-                                names[method.Name] = timesUsed + 1;
-                                names[guessName] = 1;
-                                yield return (method, guessName, code);
-                            }
-                            else
-                            {
-                                names[method.Name] = 1;
-                                yield return (method, method.Name, code);
-                            }
-
-                            code++;
                         }
                     }
                 }

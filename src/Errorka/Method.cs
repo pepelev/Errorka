@@ -1,3 +1,4 @@
+using System.Collections.Immutable;
 using Microsoft.CodeAnalysis;
 
 namespace Errorka;
@@ -13,4 +14,5 @@ internal sealed class Method
 
     public string Name => symbol.Name;
     public ITypeSymbol ReturnType => symbol.ReturnType;
+    public ImmutableArray<IParameterSymbol> Parameters => symbol.Parameters;
 }

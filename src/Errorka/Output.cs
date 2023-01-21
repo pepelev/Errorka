@@ -1,10 +1,11 @@
 ﻿using System.Diagnostics;
 using System.Text;
+using Errorka.Contents;
 using Microsoft.CodeAnalysis;
 
 namespace Errorka;
 
-internal class Output
+internal sealed class Output
 {
     private int indent = 0;
     private bool started = false;
@@ -67,16 +68,19 @@ internal class Output
             .AppendLine(",");
     }
 
-    public void Line(string content)
+    // todo kill
+    [Obsolete]
+    public void WriteLine(string content)
     {
         buffer
             .Append('\t', indent)
             .AppendLine(content);
     }
 
+
     public void Constructor(string typeName, INamedTypeSymbol rootType)
     {
-        Line("[global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]");
+        WriteLine("[global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]");
         buffer
             .Append('\t', indent)
             .Append("internal @")
@@ -86,8 +90,8 @@ internal class Output
             .AppendLine(".Code code, global::System.Object value)");
         using (OpenBlock())
         {
-            Line("this.Code = code;");
-            Line("this.Value = value;");
+            WriteLine("this.Code = code;");
+            WriteLine("this.Value = value;");
         }
     }
 
@@ -150,11 +154,16 @@ internal class Output
         buffer.Append(content);
     }
 
-    public void End()
+    public Line StartLine() => new Line(this);
+
+    public void EndLine()
     {
         buffer.AppendLine();
         started = false;
     }
+
+    public ParameterList Parameters() => new(this);
+    public ArgumentList Arguments() => new(this);
 
     public void Close()
     {
@@ -184,6 +193,87 @@ internal class Output
         public void Dispose()
         {
             output.Close();
+        }
+    }
+
+    public readonly struct Line : IDisposable
+    {
+        private readonly Output output;
+
+        public Line(Output output)
+        {
+            this.output = output;
+        }
+
+        public void Dispose()
+        {
+            output.EndLine();
+        }
+    }
+
+    public struct ParameterList
+    {
+        private bool empty = true;
+        private readonly Output output;
+
+        public ParameterList(Output output)
+        {
+            this.output = output;
+        }
+
+        public void Append(IParameterSymbol parameter)
+        {
+            Append(parameter.Type, parameter.Name);
+        }
+
+        public void Append(ITypeSymbol type, string name)
+        {
+            if (!empty)
+            {
+                output.Write(", ");
+            }
+
+            output.Write(type);
+            output.Write(" ");
+            output.Write(name);
+            empty = false;
+        }
+    }
+
+    public struct ArgumentList
+    {
+        private bool empty = true;
+        private readonly Output output;
+
+        public ArgumentList(Output output)
+        {
+            this.output = output;
+        }
+
+        public void Append<T>(T content) where T : Content
+        {
+            if (!empty)
+            {
+                output.Write(", ");
+            }
+
+            content.Write(output);
+            empty = false;
+        }
+
+        public void Append(ITypeSymbol segment1, string segment2, string segment3)
+        {
+            if (!empty)
+            {
+                output.Write(", ");
+            }
+
+            output.Write(segment1);
+            output.Write(".");
+            output.Write(segment2);
+            output.Write(".");
+            output.Write(segment3);
+            empty = false;
         }
     }
 }
