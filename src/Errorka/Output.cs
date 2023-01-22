@@ -20,6 +20,15 @@ internal sealed class Output
         return new Block(this);
     }
 
+    private void CloseBlock()
+    {
+        indent--;
+        buffer
+            .Append('\t', indent)
+            .AppendLine("}");
+        started = false;
+    }
+
     public Region OpenRegion(string name)
     {
         Write("#region ");
@@ -34,12 +43,13 @@ internal sealed class Output
         EndLine();
     }
 
-    public Block OpenNamespace(INamespaceSymbol @namespace)
+    public Block OpenNamespace<T>(T content) where T : Content
     {
         buffer
             .Append('\t', indent)
-            .Append("namespace ")
-            .AppendLine(@namespace.ToString());
+            .Append("namespace ");
+        content.Write(this);
+        buffer.AppendLine();
         return OpenBlock();
     }
 
@@ -80,16 +90,6 @@ internal sealed class Output
             .Append(value)
             .AppendLine(",");
     }
-
-    // todo kill
-    [Obsolete]
-    public void WriteLine(string content)
-    {
-        buffer
-            .Append('\t', indent)
-            .AppendLine(content);
-    }
-
 
     public void Constructor(string typeName, INamedTypeSymbol rootType)
     {
@@ -135,7 +135,7 @@ internal sealed class Output
 
     public Line StartLine() => new(this);
 
-    public void EndLine()
+    private void EndLine()
     {
         buffer.AppendLine();
         started = false;
@@ -143,15 +143,6 @@ internal sealed class Output
 
     public ParameterList Parameters() => new(this);
     public ArgumentList Arguments() => new(this);
-
-    public void Close()
-    {
-        indent--;
-        buffer
-            .Append('\t', indent)
-            .AppendLine("}");
-        started = false;
-    }
 
     public void Clear()
     {
@@ -186,7 +177,7 @@ internal sealed class Output
 
         public void Dispose()
         {
-            output.Close();
+            output.CloseBlock();
         }
     }
 
@@ -220,7 +211,7 @@ internal sealed class Output
             Append(parameter.Type, parameter.Name);
         }
 
-        public void Append(ITypeSymbol type, string name)
+        private void Append(ITypeSymbol type, string name)
         {
             if (!empty)
             {

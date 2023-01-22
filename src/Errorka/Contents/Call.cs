@@ -20,4 +20,6 @@ internal readonly struct Call<T1, T2> : Content
         arguments.Write(output);
         output.Write(")");
     }
+
+    public override string ToString() => this.Print();
 }

@@ -24,4 +24,6 @@ internal readonly struct Dotted3<T1, T2, T3> : Content
         output.Write(".");
         third.Write(output);
     }
+
+    public override string ToString() => this.Print();
 }

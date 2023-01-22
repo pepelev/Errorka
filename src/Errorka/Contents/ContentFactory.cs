@@ -18,6 +18,7 @@ internal static class ContentFactory
 
     public static Verbatim From(string value) => new(value);
     public static Type From(ITypeSymbol symbol) => new(symbol);
+    public static Namespace Declaration(INamespaceSymbol symbol) => new(symbol, globalPrefix: false);
 
     public static ParametersArguments ParametersArguments(ImmutableArray<IParameterSymbol> parameters)
         => new(parameters);

@@ -1,5 +1,5 @@
 ﻿//HintName: Errorka.Playground.NoVariants.Code.g.cs
-namespace Errorka.Playground
+namespace @Errorka.@Playground
 {
 	partial class @NoVariants
 	{

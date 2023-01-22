@@ -20,4 +20,6 @@ internal readonly struct ParametersArguments : Content
             arguments.Append(ContentFactory.From(parameter.Name));
         }
     }
+
+    public override string ToString() => this.Print();
 }

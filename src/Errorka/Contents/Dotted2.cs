@@ -19,4 +19,6 @@ internal readonly struct Dotted2<T1, T2> : Content
         output.Write(".");
         second.Write(output);
     }
+
+    public override string ToString() => this.Print();
 }

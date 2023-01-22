@@ -13,38 +13,25 @@ internal readonly struct Type : Content
 
     public void Write(Output output)
     {
-        PrintType(symbol);
+        Print(symbol);
 
-        void PrintNamespace(INamespaceSymbol @namespace)
-        {
-            var outer = @namespace.ContainingNamespace;
-            if (outer == null || outer.IsGlobalNamespace)
-            {
-                output.Write("global::");
-                output.Write(@namespace.Name);
-            }
-            else
-            {
-                PrintNamespace(outer);
-                output.Write(".");
-                output.Write(@namespace.Name);
-            }
-        }
-
-        void PrintType(ITypeSymbol type)
+        void Print(ITypeSymbol type)
         {
             var outer = type.ContainingType;
             if (outer == null)
             {
-                PrintNamespace(type.ContainingNamespace);
-                output.Write(".");
+                var @namespace = new Namespace(type.ContainingNamespace, globalPrefix: true);
+                @namespace.Write(output);
+                output.Write(".@");
                 output.Write(type.Name);
                 return;
             }
 
-            PrintType(outer);
-            output.Write(".");
+            Print(outer);
+            output.Write(".@");
             output.Write(type.Name);
         }
     }
+
+    public override string ToString() => this.Print();
 }

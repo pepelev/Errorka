@@ -1,5 +1,5 @@
 ﻿//HintName: Errorka.Playground.Service.Code.g.cs
-namespace Errorka.Playground
+namespace @Errorka.@Playground
 {
 	partial class @Service
 	{

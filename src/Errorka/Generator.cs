@@ -159,7 +159,7 @@ namespace Errorka
 
                         void PrintCodeEnum()
                         {
-                            using (output.OpenNamespace(part.Symbol.ContainingNamespace))
+                            using (output.OpenNamespace(ContentFactory.Declaration(part.Symbol.ContainingNamespace)))
                             {
                                 using (output.OpenPartialClass(part.Symbol))
                                 {
@@ -176,7 +176,7 @@ namespace Errorka
 
                         void PrintResultClass()
                         {
-                            using (output.OpenNamespace(part.Symbol.ContainingNamespace))
+                            using (output.OpenNamespace(ContentFactory.Declaration(part.Symbol.ContainingNamespace)))
                             {
                                 using (output.OpenPartialClass(part.Symbol))
                                 {
@@ -194,7 +194,7 @@ namespace Errorka
 
                         void PrintArea(string area, List<Variant> variantList)
                         {
-                            using (output.OpenNamespace(part.Symbol.ContainingNamespace))
+                            using (output.OpenNamespace(ContentFactory.Declaration(part.Symbol.ContainingNamespace)))
                             {
                                 using (output.OpenPartialClass(part.Symbol))
                                 {

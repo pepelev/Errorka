@@ -1,5 +1,5 @@
 ﻿//HintName: Errorka.Playground.Service.Areas.Creation.g.cs
-namespace Errorka.Playground
+namespace @Errorka.@Playground
 {
 	partial class @Service
 	{
@@ -13,63 +13,63 @@ namespace Errorka.Playground
 			}
 			public global::Errorka.Playground.Service.Code Code { get; }
 			public global::System.Object Value { get; }
-			public static global::Errorka.Playground.Service.@Creation Ok(global::System.String content)
+			public static global::@Errorka.@Playground.@Service.@Creation Ok(global::@System.@String content)
 			{
-				return new global::Errorka.Playground.Service.@Creation(global::Errorka.Playground.Service.Code.Ok, global::Errorka.Playground.Service.Ok(content));
+				return new global::@Errorka.@Playground.@Service.@Creation(global::@Errorka.@Playground.@Service.Code.Ok, global::@Errorka.@Playground.@Service.Ok(content));
 			}
-			public global::System.Boolean IsOk([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out global::System.String value)
+			public global::System.Boolean IsOk([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out global::@System.@String value)
 			{
-				value = this.Value is global::System.String ? (global::System.String)this.Value : default;
-				return this.Code == global::Errorka.Playground.Service.Code.Ok;
+				value = this.Value is global::@System.@String ? (global::@System.@String)this.Value : default;
+				return this.Code == global::@Errorka.@Playground.@Service.Code.Ok;
 			}
-			public static global::Errorka.Playground.Service.@Creation Created()
+			public static global::@Errorka.@Playground.@Service.@Creation Created()
 			{
-				return new global::Errorka.Playground.Service.@Creation(global::Errorka.Playground.Service.Code.Created, global::Errorka.Playground.Service.Created());
+				return new global::@Errorka.@Playground.@Service.@Creation(global::@Errorka.@Playground.@Service.Code.Created, global::@Errorka.@Playground.@Service.Created());
 			}
-			public global::System.Boolean IsCreated([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out global::System.String value)
+			public global::System.Boolean IsCreated([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out global::@System.@String value)
 			{
-				value = this.Value is global::System.String ? (global::System.String)this.Value : default;
-				return this.Code == global::Errorka.Playground.Service.Code.Created;
+				value = this.Value is global::@System.@String ? (global::@System.@String)this.Value : default;
+				return this.Code == global::@Errorka.@Playground.@Service.Code.Created;
 			}
-			public static global::Errorka.Playground.Service.@Creation NotFound()
+			public static global::@Errorka.@Playground.@Service.@Creation NotFound()
 			{
-				return new global::Errorka.Playground.Service.@Creation(global::Errorka.Playground.Service.Code.NotFound, global::Errorka.Playground.Service.NotFound());
+				return new global::@Errorka.@Playground.@Service.@Creation(global::@Errorka.@Playground.@Service.Code.NotFound, global::@Errorka.@Playground.@Service.NotFound());
 			}
-			public global::System.Boolean IsNotFound([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out global::System.String value)
+			public global::System.Boolean IsNotFound([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out global::@System.@String value)
 			{
-				value = this.Value is global::System.String ? (global::System.String)this.Value : default;
-				return this.Code == global::Errorka.Playground.Service.Code.NotFound;
+				value = this.Value is global::@System.@String ? (global::@System.@String)this.Value : default;
+				return this.Code == global::@Errorka.@Playground.@Service.Code.NotFound;
 			}
-			public static global::Errorka.Playground.Service.@Creation Moved(global::System.String where)
+			public static global::@Errorka.@Playground.@Service.@Creation Moved(global::@System.@String where)
 			{
-				return new global::Errorka.Playground.Service.@Creation(global::Errorka.Playground.Service.Code.Moved, global::Errorka.Playground.Service.Moved(where));
+				return new global::@Errorka.@Playground.@Service.@Creation(global::@Errorka.@Playground.@Service.Code.Moved, global::@Errorka.@Playground.@Service.Moved(where));
 			}
-			public global::System.Boolean IsMoved([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out global::System.String value)
+			public global::System.Boolean IsMoved([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out global::@System.@String value)
 			{
-				value = this.Value is global::System.String ? (global::System.String)this.Value : default;
-				return this.Code == global::Errorka.Playground.Service.Code.Moved;
+				value = this.Value is global::@System.@String ? (global::@System.@String)this.Value : default;
+				return this.Code == global::@Errorka.@Playground.@Service.Code.Moved;
 			}
-			public static global::Errorka.Playground.Service.@Creation Unauthorized()
+			public static global::@Errorka.@Playground.@Service.@Creation Unauthorized()
 			{
-				return new global::Errorka.Playground.Service.@Creation(global::Errorka.Playground.Service.Code.Unauthorized, global::Errorka.Playground.Service.Unauthorized());
+				return new global::@Errorka.@Playground.@Service.@Creation(global::@Errorka.@Playground.@Service.Code.Unauthorized, global::@Errorka.@Playground.@Service.Unauthorized());
 			}
-			public global::System.Boolean IsUnauthorized([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out global::System.String value)
+			public global::System.Boolean IsUnauthorized([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out global::@System.@String value)
 			{
-				value = this.Value is global::System.String ? (global::System.String)this.Value : default;
-				return this.Code == global::Errorka.Playground.Service.Code.Unauthorized;
+				value = this.Value is global::@System.@String ? (global::@System.@String)this.Value : default;
+				return this.Code == global::@Errorka.@Playground.@Service.Code.Unauthorized;
 			}
-			public static global::Errorka.Playground.Service.@Creation Forbidden()
+			public static global::@Errorka.@Playground.@Service.@Creation Forbidden()
 			{
-				return new global::Errorka.Playground.Service.@Creation(global::Errorka.Playground.Service.Code.Forbidden, global::Errorka.Playground.Service.Forbidden());
+				return new global::@Errorka.@Playground.@Service.@Creation(global::@Errorka.@Playground.@Service.Code.Forbidden, global::@Errorka.@Playground.@Service.Forbidden());
 			}
-			public global::System.Boolean IsForbidden([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out global::System.String value)
+			public global::System.Boolean IsForbidden([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out global::@System.@String value)
 			{
-				value = this.Value is global::System.String ? (global::System.String)this.Value : default;
-				return this.Code == global::Errorka.Playground.Service.Code.Forbidden;
+				value = this.Value is global::@System.@String ? (global::@System.@String)this.Value : default;
+				return this.Code == global::@Errorka.@Playground.@Service.Code.Forbidden;
 			}
-			public global::Errorka.Playground.Service.Result ToResult()
+			public global::@Errorka.@Playground.@Service.Result ToResult()
 			{
-				return new global::Errorka.Playground.Service.Result(this.Code, this.Value);
+				return new global::@Errorka.@Playground.@Service.Result(this.Code, this.Value);
 			}
 		}
 	}

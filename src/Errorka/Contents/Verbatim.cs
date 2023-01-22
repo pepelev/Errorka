@@ -13,4 +13,6 @@ internal readonly struct Verbatim : Content
     {
         output.Write(value);
     }
+
+    public override string ToString() => this.Print();
 }
