@@ -78,6 +78,22 @@ namespace Errorka
                     var output = new Output();
                     foreach (var part in parts)
                     {
+                        ITypeSymbol CommonType(IEnumerable<ITypeSymbol> types)
+                        {
+                            var symbols = types
+                                .Distinct<ITypeSymbol>(SymbolEqualityComparer.Default)
+                                .Take(2)
+                                .ToArray();
+                            if (symbols.Length == 1)
+                            {
+                                return symbols[0].SpecialType == SpecialType.System_Void
+                                    ? compilation.GetSpecialType(SpecialType.System_Object)
+                                    : symbols[0];
+                            }
+
+                            return compilation.GetSpecialType(SpecialType.System_Object);
+                        }
+
                         var variants = part.Methods()
                             .GroupBy(method => method.Name, StringComparer.Ordinal)
                             .Indexed(startIndex: 1)
@@ -86,11 +102,7 @@ namespace Errorka
                                     group.Item.Key,
                                     group.Index,
                                     group.Item.AsEnumerable(),
-                                    group.Item.Select(method => method.ReturnType).AllEquals(SymbolEqualityComparer.Default)
-                                        ? group.Item.First().ReturnType.SpecialType == SpecialType.System_Void
-                                            ? compilation.GetSpecialType(SpecialType.System_Object)
-                                            : group.Item.First().ReturnType
-                                        : compilation.GetSpecialType(SpecialType.System_Object),
+                                    CommonType(group.Item.Select(method => method.ReturnType)),
                                     group.Item.SelectMany(method => method.Areas).ToHashSet()
                                 )
                             ).ToList();
