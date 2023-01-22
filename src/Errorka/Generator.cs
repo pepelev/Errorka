@@ -91,9 +91,7 @@ namespace Errorka
                                             ? compilation.GetSpecialType(SpecialType.System_Object)
                                             : group.Item.First().ReturnType
                                         : compilation.GetSpecialType(SpecialType.System_Object),
-                                    new HashSet<Area>(
-                                        group.Item.SelectMany(method => method.Areas)
-                                    )
+                                    group.Item.SelectMany(method => method.Areas).ToHashSet()
                                 )
                             ).ToList();
 

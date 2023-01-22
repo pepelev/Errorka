@@ -30,4 +30,6 @@ internal static class SequenceExtensions
     {
         return sequence.Where(item => item != null)!;
     }
+
+    public static HashSet<T> ToHashSet<T>(this IEnumerable<T> sequence) => new(sequence);
 }
