@@ -174,11 +174,12 @@ namespace Errorka
                             {
                                 using (Class.Open(output, "partial", ContentFactory.From(part.Symbol.Name).VerbatimPrefixed()))
                                 {
-                                    using (output.OpenEnum("Code"))
+                                    using (var @enum = Code.Enum.Open(output, "public", ContentFactory.From("Code")))
                                     {
                                         foreach (var variant in variants)
                                         {
-                                            output.EnumMember(variant.Name, variant.Index);
+                                            var name = ContentFactory.From(variant.Name).VerbatimPrefixed();
+                                            @enum.Member(name, variant.Index);
                                         }
                                     }
                                 }

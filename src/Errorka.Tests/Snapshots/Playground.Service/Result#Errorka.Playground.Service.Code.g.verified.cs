@@ -3,7 +3,7 @@ namespace @Errorka.@Playground
 {
 	partial class @Service
 	{
-		public enum @Code
+		public enum Code
 		{
 			@Ok = 1,
 			@Created = 2,

@@ -53,15 +53,6 @@ internal sealed class Output
         return OpenBlock();
     }
 
-    public Block OpenEnum(string name)
-    {
-        buffer
-            .Append('\t', indent)
-            .Append("public enum @")
-            .AppendLine(name);
-        return OpenBlock();
-    }
-
     public Block OpenStruct(string name)
     {
         buffer
@@ -69,17 +60,6 @@ internal sealed class Output
             .Append("public readonly struct @")
             .AppendLine(name);
         return OpenBlock();
-    }
-
-    public void EnumMember(string name, int value)
-    {
-        buffer
-            .Append('\t', indent)
-            .Append('@')
-            .Append(name)
-            .Append(" = ")
-            .Append(value)
-            .AppendLine(",");
     }
 
     public void Constructor(string typeName, INamedTypeSymbol rootType)

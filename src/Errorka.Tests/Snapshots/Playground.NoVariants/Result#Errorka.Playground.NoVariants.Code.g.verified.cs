@@ -3,7 +3,7 @@ namespace @Errorka.@Playground
 {
 	partial class @NoVariants
 	{
-		public enum @Code
+		public enum Code
 		{
 		}
 	}
