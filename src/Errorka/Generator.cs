@@ -209,7 +209,7 @@ namespace Errorka
                                         using (output.StartLine())
                                         {
                                             output.Write("public ");
-                                            output.Write(part.Symbol);
+                                            ContentFactory.From(part.Symbol).Write(output);
                                             output.Write(".Result ToResult()");
                                         }
 
@@ -218,7 +218,7 @@ namespace Errorka
                                             using (output.StartLine())
                                             {
                                                 output.Write("return new ");
-                                                output.Write(part.Symbol);
+                                                ContentFactory.From(part.Symbol).Write(output);
                                                 output.Write(".Result(this.Code, this.Value);");
                                             }
                                         }
@@ -228,7 +228,7 @@ namespace Errorka
                                             using (output.StartLine())
                                             {
                                                 output.Write("public ");
-                                                output.Write(part.Symbol);
+                                                ContentFactory.From(part.Symbol).Write(output);
                                                 output.Write(".@");
                                                 output.Write(next);
                                                 output.Write(" @To");
@@ -241,7 +241,7 @@ namespace Errorka
                                                 using (output.StartLine())
                                                 {
                                                     output.Write("return new ");
-                                                    output.Write(part.Symbol);
+                                                    ContentFactory.From(part.Symbol).Write(output);
                                                     output.Write(".@");
                                                     output.Write(next);
                                                     output.Write("(this.Code, this.Value);");
@@ -280,7 +280,7 @@ namespace Errorka
                     using (output.StartLine())
                     {
                         output.Write("public static ");
-                        output.Write(part.Symbol);
+                        ContentFactory.From(part.Symbol).Write(output);
                         output.Write(".@");
                         output.Write(returnType);
                         output.Write(" ");
@@ -300,7 +300,7 @@ namespace Errorka
                         using (output.StartLine())
                         {
                             output.Write("return new ");
-                            output.Write(part.Symbol);
+                            ContentFactory.From(part.Symbol).Write(output);
                             output.Write(".@");
                             output.Write(returnType);
                             output.Write("(");
@@ -331,7 +331,7 @@ namespace Errorka
                     output.Write("public global::System.Boolean Is");
                     output.Write(variant.Name);
                     output.Write("([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out ");
-                    output.Write(variant.Type);
+                    ContentFactory.From(variant.Type).Write(output);
                     output.Write(" value)");
                 }
 
@@ -340,16 +340,16 @@ namespace Errorka
                     using (output.StartLine())
                     {
                         output.Write("value = this.Value is ");
-                        output.Write(variant.Type);
+                        ContentFactory.From(variant.Type).Write(output);
                         output.Write(" ? (");
-                        output.Write(variant.Type);
+                        ContentFactory.From(variant.Type).Write(output);
                         output.Write(")this.Value : default;");
                     }
 
                     using (output.StartLine())
                     {
                         output.Write("return this.Code == ");
-                        output.Write(part.Symbol);
+                        ContentFactory.From(part.Symbol).Write(output);
                         output.Write(".Code.");
                         output.Write(variant.Name);
                         output.Write(";");
@@ -384,12 +384,6 @@ namespace Errorka
 
 internal sealed class Variant
 {
-    public string Name { get; }
-    public int Index { get; }
-    public IEnumerable<Method> Methods { get; }
-    public ITypeSymbol Type { get; }
-    public HashSet<string> Areas { get; }
-
     public Variant(string name, int index, IEnumerable<Method> methods, ITypeSymbol type, HashSet<string> areas)
     {
         Name = name;
@@ -398,4 +392,10 @@ internal sealed class Variant
         Type = type;
         Areas = areas;
     }
+
+    public string Name { get; }
+    public int Index { get; }
+    public IEnumerable<Method> Methods { get; }
+    public ITypeSymbol Type { get; }
+    public HashSet<string> Areas { get; }
 }

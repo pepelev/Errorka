@@ -20,6 +20,20 @@ internal sealed class Output
         return new Block(this);
     }
 
+    public Region OpenRegion(string name)
+    {
+        Write("#region ");
+        Write(name);
+        EndLine();
+        return new Region(this);
+    }
+
+    private void CloseRegion()
+    {
+        Write("#endregion");
+        EndLine();
+    }
+
     public Block OpenNamespace(INamespaceSymbol @namespace)
     {
         buffer
@@ -108,43 +122,6 @@ internal sealed class Output
             .AppendLine(" { get; }");
     }
 
-    public void Write(ITypeSymbol symbol)
-    {
-        PrintType(symbol);
-
-        void PrintNamespace(INamespaceSymbol @namespace)
-        {
-            var outer = @namespace.ContainingNamespace;
-            if (outer == null || outer.IsGlobalNamespace)
-            {
-                Write("global::");
-                Write(@namespace.Name);
-            }
-            else
-            {
-                PrintNamespace(outer);
-                Write(".");
-                Write(@namespace.Name);
-            }
-        }
-
-        void PrintType(ITypeSymbol type)
-        {
-            var outer = type.ContainingType;
-            if (outer == null)
-            {
-                PrintNamespace(type.ContainingNamespace);
-                Write(".");
-                Write(type.Name);
-                return;
-            }
-
-            PrintType(outer);
-            Write(".");
-            Write(type.Name);
-        }
-    }
-
     public void Write(string content)
     {
         if (!started)
@@ -156,7 +133,7 @@ internal sealed class Output
         buffer.Append(content);
     }
 
-    public Line StartLine() => new Line(this);
+    public Line StartLine() => new(this);
 
     public void EndLine()
     {
@@ -182,6 +159,21 @@ internal sealed class Output
     }
 
     public override string ToString() => buffer.ToString();
+
+    public readonly struct Region : IDisposable
+    {
+        private readonly Output output;
+
+        public Region(Output output)
+        {
+            this.output = output;
+        }
+
+        public void Dispose()
+        {
+            output.CloseRegion();
+        }
+    }
 
     public readonly struct Block : IDisposable
     {
@@ -235,7 +227,7 @@ internal sealed class Output
                 output.Write(", ");
             }
 
-            output.Write(type);
+            ContentFactory.From(type).Write(output);
             output.Write(" ");
             output.Write(name);
             empty = false;
@@ -260,21 +252,6 @@ internal sealed class Output
             }
 
             content.Write(output);
-            empty = false;
-        }
-
-        public void Append(ITypeSymbol segment1, string segment2, string segment3)
-        {
-            if (!empty)
-            {
-                output.Write(", ");
-            }
-
-            output.Write(segment1);
-            output.Write(".");
-            output.Write(segment2);
-            output.Write(".");
-            output.Write(segment3);
             empty = false;
         }
     }
