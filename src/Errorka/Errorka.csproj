@@ -6,6 +6,7 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>true</ImplicitUsings>
         <LangVersion>10</LangVersion>
+        <OutputPath>../../bin/Errorka</OutputPath>
     </PropertyGroup>
 
     <ItemGroup>

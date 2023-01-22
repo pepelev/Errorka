@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <IsPackable>false</IsPackable>
+        <ImplicitUsings>true</ImplicitUsings>
+        <OutputPath>../../bin/Errorka.Tests</OutputPath>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0" />
+        <PackageReference Include="NUnit" Version="3.13.3" />
+        <PackageReference Include="Verify.NUnit" Version="19.7.1" />
+        <PackageReference Include="Verify.SourceGenerators" Version="2.0.1" />
+        <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.2" PrivateAssets="all" />
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.0.1" PrivateAssets="all" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\src\Errorka\Errorka.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <None
+                Include="../Errorka.Playground/*.cs"
+                CopyToOutputDirectory="PreserveNewest"
+        />
+    </ItemGroup>
+    
+</Project>

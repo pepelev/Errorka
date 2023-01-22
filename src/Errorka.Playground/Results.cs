@@ -21,6 +21,7 @@ public partial class Results
         if (Result.DiskFailed().IsDiskFailed(out var str))
         {
             Result.MemoryFailed(10).IsMemoryFailed(out var d);
+            var s = d.ToString();
         }
 
         return "disk-failed";

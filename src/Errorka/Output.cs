@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using System.Text;
+﻿using System.Text;
 using Errorka.Contents;
 using Microsoft.CodeAnalysis;
 

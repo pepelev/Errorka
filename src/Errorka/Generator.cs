@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using System.Text;
+﻿using System.Text;
 using Errorka.Contents;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -20,7 +19,7 @@ namespace Errorka
     }
 
     [global::System.AttributeUsage(global::System.AttributeTargets.Method, AllowMultiple = true)]
-    public sealed class AreaAttribute : global::System.Attribute
+    internal sealed class AreaAttribute : global::System.Attribute
     {
         public AreaAttribute(global::System.String name)
         {
@@ -61,176 +60,157 @@ namespace Errorka
             data,
             (context, entry) =>
             {
-                var (classes, compilation) = entry;
-                if (classes.IsDefaultOrEmpty)
+                try
                 {
-                    return;
-                }
+                    var (classes, compilation) = entry;
+                    if (classes.IsDefaultOrEmpty)
+                    {
+                        return;
+                    }
 
-                var declarations = classes.Distinct().Select(
-                    declaration => ClassDeclaration.TryCreate(compilation, declaration)!
-                ).Where(declaration => declaration != null);
-                var parts = ClassDeclaration.Parts.Join(declarations).ToList();
+                    var declarations = classes.Distinct().Select(
+                        declaration => ClassDeclaration.TryCreate(compilation, declaration)!
+                    ).Where(declaration => declaration != null);
+                    var parts = ClassDeclaration.Parts.Join(declarations).ToList();
 
-                var output = new Output();
-                foreach (var part in parts)
-                {
-                    var variants = part.Methods()
-                        .GroupBy(method => method.Name, StringComparer.Ordinal)
-                        .Indexed(startIndex: 1)
-                        .Select(
-                            group => new Variant(
-                                group.Item.Key,
-                                group.Index,
-                                group.Item.AsEnumerable(),
-                                group.Item.Select(method => method.ReturnType).AllEquals(SymbolEqualityComparer.Default)
-                                    ? group.Item.First().ReturnType.SpecialType == SpecialType.System_Void
-                                        ? compilation.GetSpecialType(SpecialType.System_Object)
-                                        : group.Item.First().ReturnType
-                                    : compilation.GetSpecialType(SpecialType.System_Object),
-                                new HashSet<string>(
-                                    group.Item.SelectMany(method => method.Areas),
-                                    StringComparer.Ordinal
+                    var output = new Output();
+                    foreach (var part in parts)
+                    {
+                        var variants = part.Methods()
+                            .GroupBy(method => method.Name, StringComparer.Ordinal)
+                            .Indexed(startIndex: 1)
+                            .Select(
+                                group => new Variant(
+                                    group.Item.Key,
+                                    group.Index,
+                                    group.Item.AsEnumerable(),
+                                    group.Item.Select(method => method.ReturnType).AllEquals(SymbolEqualityComparer.Default)
+                                        ? group.Item.First().ReturnType.SpecialType == SpecialType.System_Void
+                                            ? compilation.GetSpecialType(SpecialType.System_Object)
+                                            : group.Item.First().ReturnType
+                                        : compilation.GetSpecialType(SpecialType.System_Object),
+                                    new HashSet<string>(
+                                        group.Item.SelectMany(method => method.Areas),
+                                        StringComparer.Ordinal
+                                    )
                                 )
-                            )
-                        ).ToList();
+                            ).ToList();
 
-                    var maxIndex = variants.Max(variant => variant.Index);
-                    var decreasingAreas = variants
-                        .SelectMany(variant => variant.Areas, (variant, area) => (variant, Area: area))
-                        .GroupBy(
-                            pair => pair.Area,
-                            pair => pair.variant,
-                            (area, areaVariants) =>
-                            {
-                                var variantList = areaVariants.ToList();
-                                var indexList = variantList
-                                    .Select(variant => variant.Index)
-                                    .Distinct()
-                                    .ToList();
-                                var set = new IntSet(maxIndex, indexList);
-                                return (Area: area, indexList.Count, Variants: variantList, Set: set);
-                            }
-                        ).OrderByDescending(triple => triple.Count).ThenBy(triple => triple.Area, StringComparer.Ordinal)
-                        .ToList();
-
-                    var areaGoes = Yield().ToLookup(x => x.FromArea, x => x.ToArea);
-
-                    IEnumerable<(string FromArea, string ToArea)> Yield()
-                    {
-                        for (var i = 0; i < decreasingAreas.Count - 1; i++)
-                        {
-                            var aSet = decreasingAreas[i].Set;
-                            var aArea = decreasingAreas[i].Area;
-                            for (var j = i + 1; j < decreasingAreas.Count; j++)
-                            {
-                                var bSet = decreasingAreas[j].Set;
-                                if (aSet.IsSuperset(bSet))
+                        var maxIndex = variants.Count > 0
+                            ? variants.Max(variant => variant.Index)
+                            : 1;
+                        var decreasingAreas = variants
+                            .SelectMany(variant => variant.Areas, (variant, area) => (variant, Area: area))
+                            .GroupBy(
+                                pair => pair.Area,
+                                pair => pair.variant,
+                                (area, areaVariants) =>
                                 {
-                                    var bArea = decreasingAreas[j].Area;
-                                    yield return (bArea, aArea);
-
-                                    if (decreasingAreas[i].Count == decreasingAreas[j].Count)
-                                    {
-                                        yield return (aArea, bArea);
-                                    }
+                                    var variantList = areaVariants.ToList();
+                                    var indexList = variantList
+                                        .Select(variant => variant.Index)
+                                        .Distinct()
+                                        .ToList();
+                                    var set = new IntSet(maxIndex, indexList);
+                                    return (Area: area, indexList.Count, Variants: variantList, Set: set);
                                 }
-                            }
-                        }
-                    }
+                            ).OrderByDescending(triple => triple.Count).ThenBy(triple => triple.Area, StringComparer.Ordinal)
+                            .ToList();
 
-                    output.Clear();
-                    PrintCodeEnum();
-                    context.AddSource($"{part.Symbol}.Code.g.cs", output.ToString());
+                        var areaGoes = Yield().ToLookup(x => x.FromArea, x => x.ToArea);
 
-                    output.Clear();
-                    PrintResultClass();
-                    context.AddSource($"{part.Symbol}.Result.g.cs", output.ToString());
-
-                    foreach (var (area, _, variantList, _) in decreasingAreas)
-                    {
-                        output.Clear();
-                        PrintArea(area, variantList);
-                        context.AddSource($"{part.Symbol}.Areas.{area}.g.cs", output.ToString());
-                    }
-
-                    void PrintCodeEnum()
-                    {
-                        using (output.OpenNamespace(part.Symbol.ContainingNamespace))
+                        IEnumerable<(string FromArea, string ToArea)> Yield()
                         {
-                            using (output.OpenPartialClass(part.Symbol))
+                            for (var i = 0; i < decreasingAreas.Count - 1; i++)
                             {
-                                using (output.OpenEnum("Code"))
+                                var aSet = decreasingAreas[i].Set;
+                                var aArea = decreasingAreas[i].Area;
+                                for (var j = i + 1; j < decreasingAreas.Count; j++)
                                 {
-                                    foreach (var variant in variants)
+                                    var bSet = decreasingAreas[j].Set;
+                                    if (aSet.IsSuperset(bSet))
                                     {
-                                        output.EnumMember(variant.Name, variant.Index);
-                                    }
-                                }
-                            }
-                        }
-                    }
+                                        var bArea = decreasingAreas[j].Area;
+                                        yield return (bArea, aArea);
 
-                    void PrintResultClass()
-                    {
-                        using (output.OpenNamespace(part.Symbol.ContainingNamespace))
-                        {
-                            using (output.OpenPartialClass(part.Symbol))
-                            {
-                                using (output.OpenStruct("Result"))
-                                {
-                                    output.Constructor("Result", part.Symbol);
-                                    output.GetAutoProperty($"global::{part.Symbol}.Code", "Code");
-                                    output.GetAutoProperty("global::System.Object", "Value");
-
-                                    Creation(variants, output, part, "Result");
-                                }
-                            }
-                        }
-                    }
-
-                    void PrintArea(string area, List<Variant> variantList)
-                    {
-                        using (output.OpenNamespace(part.Symbol.ContainingNamespace))
-                        {
-                            using (output.OpenPartialClass(part.Symbol))
-                            {
-                                using (output.OpenStruct(area))
-                                {
-                                    output.Constructor(area, part.Symbol);
-                                    output.GetAutoProperty($"global::{part.Symbol}.Code", "Code");
-                                    output.GetAutoProperty("global::System.Object", "Value");
-
-                                    Creation(variants, output, part, area);
-
-                                    using (output.StartLine())
-                                    {
-                                        output.Write("public ");
-                                        output.Write(part.Symbol);
-                                        output.Write(".Result ToResult()");
-                                    }
-
-                                    using (output.OpenBlock())
-                                    {
-                                        using (output.StartLine())
+                                        if (decreasingAreas[i].Count == decreasingAreas[j].Count)
                                         {
-                                            output.Write("return new ");
-                                            output.Write(part.Symbol);
-                                            output.Write(".Result(this.Code, this.Value);");
+                                            yield return (aArea, bArea);
                                         }
                                     }
+                                }
+                            }
+                        }
 
-                                    foreach (var next in areaGoes[area])
+                        output.Clear();
+                        PrintCodeEnum();
+                        context.AddSource($"{part.Symbol}.Code.g.cs", output.ToString());
+
+                        output.Clear();
+                        PrintResultClass();
+                        context.AddSource($"{part.Symbol}.Result.g.cs", output.ToString());
+
+                        foreach (var (area, _, variantList, _) in decreasingAreas)
+                        {
+                            output.Clear();
+                            PrintArea(area, variantList);
+                            context.AddSource($"{part.Symbol}.Areas.{area}.g.cs", output.ToString());
+                        }
+
+                        void PrintCodeEnum()
+                        {
+                            using (output.OpenNamespace(part.Symbol.ContainingNamespace))
+                            {
+                                using (output.OpenPartialClass(part.Symbol))
+                                {
+                                    using (output.OpenEnum("Code"))
                                     {
+                                        foreach (var variant in variants)
+                                        {
+                                            output.EnumMember(variant.Name, variant.Index);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        void PrintResultClass()
+                        {
+                            using (output.OpenNamespace(part.Symbol.ContainingNamespace))
+                            {
+                                using (output.OpenPartialClass(part.Symbol))
+                                {
+                                    using (output.OpenStruct("Result"))
+                                    {
+                                        output.Constructor("Result", part.Symbol);
+                                        output.GetAutoProperty($"global::{part.Symbol}.Code", "Code");
+                                        output.GetAutoProperty("global::System.Object", "Value");
+
+                                        Creation(variants, output, part, "Result");
+                                    }
+                                }
+                            }
+                        }
+
+                        void PrintArea(string area, List<Variant> variantList)
+                        {
+                            using (output.OpenNamespace(part.Symbol.ContainingNamespace))
+                            {
+                                using (output.OpenPartialClass(part.Symbol))
+                                {
+                                    using (output.OpenStruct(area))
+                                    {
+                                        output.Constructor(area, part.Symbol);
+                                        output.GetAutoProperty($"global::{part.Symbol}.Code", "Code");
+                                        output.GetAutoProperty("global::System.Object", "Value");
+
+                                        Creation(variants, output, part, area);
+
                                         using (output.StartLine())
                                         {
                                             output.Write("public ");
                                             output.Write(part.Symbol);
-                                            output.Write(".@");
-                                            output.Write(next);
-                                            output.Write(" @To");
-                                            output.Write(next);
-                                            output.Write("()");
+                                            output.Write(".Result ToResult()");
                                         }
 
                                         using (output.OpenBlock())
@@ -239,9 +219,33 @@ namespace Errorka
                                             {
                                                 output.Write("return new ");
                                                 output.Write(part.Symbol);
+                                                output.Write(".Result(this.Code, this.Value);");
+                                            }
+                                        }
+
+                                        foreach (var next in areaGoes[area])
+                                        {
+                                            using (output.StartLine())
+                                            {
+                                                output.Write("public ");
+                                                output.Write(part.Symbol);
                                                 output.Write(".@");
                                                 output.Write(next);
-                                                output.Write("(this.Code, this.Value);");
+                                                output.Write(" @To");
+                                                output.Write(next);
+                                                output.Write("()");
+                                            }
+
+                                            using (output.OpenBlock())
+                                            {
+                                                using (output.StartLine())
+                                                {
+                                                    output.Write("return new ");
+                                                    output.Write(part.Symbol);
+                                                    output.Write(".@");
+                                                    output.Write(next);
+                                                    output.Write("(this.Code, this.Value);");
+                                                }
                                             }
                                         }
                                     }
@@ -249,6 +253,20 @@ namespace Errorka
                             }
                         }
                     }
+                }
+                catch (Exception e)
+                {
+                    var descriptor = new DiagnosticDescriptor(
+                        "Errorka001",
+                        "Internal source generator error",
+                        "Exception occured during source generation {0} with stacktrace {1}",
+                        "Errorka.InternalError",
+                        DiagnosticSeverity.Error,
+                        isEnabledByDefault: true
+                    );
+                    context.ReportDiagnostic(
+                        Diagnostic.Create(descriptor, location: null, e, e.StackTrace)
+                    );
                 }
             }
         );
