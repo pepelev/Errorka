@@ -2,7 +2,7 @@
 using Errorka.Contents;
 using Microsoft.CodeAnalysis;
 
-namespace Errorka;
+namespace Errorka.Code;
 
 internal sealed class Output
 {
@@ -50,15 +50,6 @@ internal sealed class Output
             .Append("namespace ");
         content.Write(this);
         buffer.AppendLine();
-        return OpenBlock();
-    }
-
-    public Block OpenPartialClass(ISymbol @class)
-    {
-        buffer
-            .Append('\t', indent)
-            .Append("partial class @")
-            .AppendLine(@class.Name);
         return OpenBlock();
     }
 

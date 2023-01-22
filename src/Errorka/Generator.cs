@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using Errorka.Code;
 using Errorka.Contents;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -161,7 +162,7 @@ namespace Errorka
                         {
                             using (output.OpenNamespace(ContentFactory.Declaration(part.Symbol.ContainingNamespace)))
                             {
-                                using (output.OpenPartialClass(part.Symbol))
+                                using (Class.Open(output, "partial", ContentFactory.From(part.Symbol.Name).VerbatimPrefixed()))
                                 {
                                     using (output.OpenEnum("Code"))
                                     {
@@ -178,7 +179,7 @@ namespace Errorka
                         {
                             using (output.OpenNamespace(ContentFactory.Declaration(part.Symbol.ContainingNamespace)))
                             {
-                                using (output.OpenPartialClass(part.Symbol))
+                                using (Class.Open(output, "partial", ContentFactory.From(part.Symbol.Name).VerbatimPrefixed()))
                                 {
                                     using (output.OpenStruct("Result"))
                                     {
@@ -196,7 +197,7 @@ namespace Errorka
                         {
                             using (output.OpenNamespace(ContentFactory.Declaration(part.Symbol.ContainingNamespace)))
                             {
-                                using (output.OpenPartialClass(part.Symbol))
+                                using (Class.Open(output, "partial", ContentFactory.From(part.Symbol.Name).VerbatimPrefixed()))
                                 {
                                     using (output.OpenStruct(area))
                                     {

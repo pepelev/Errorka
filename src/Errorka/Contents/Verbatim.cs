@@ -1,3 +1,5 @@
+using Errorka.Code;
+
 namespace Errorka.Contents;
 
 internal readonly struct Verbatim : Content

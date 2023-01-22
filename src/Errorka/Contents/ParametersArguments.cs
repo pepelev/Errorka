@@ -1,4 +1,5 @@
 using System.Collections.Immutable;
+using Errorka.Code;
 using Microsoft.CodeAnalysis;
 
 namespace Errorka.Contents;

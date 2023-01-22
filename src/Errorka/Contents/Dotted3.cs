@@ -1,3 +1,5 @@
+using Errorka.Code;
+
 namespace Errorka.Contents;
 
 internal readonly struct Dotted3<T1, T2, T3> : Content
