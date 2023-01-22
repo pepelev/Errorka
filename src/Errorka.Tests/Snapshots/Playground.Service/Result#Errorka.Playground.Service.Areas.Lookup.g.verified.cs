@@ -22,15 +22,6 @@ namespace @Errorka.@Playground
 				value = this.Value is global::@System.@String ? (global::@System.@String)this.Value : default;
 				return this.Code == global::@Errorka.@Playground.@Service.Code.Ok;
 			}
-			public static global::@Errorka.@Playground.@Service.@Lookup Created()
-			{
-				return new global::@Errorka.@Playground.@Service.@Lookup(global::@Errorka.@Playground.@Service.Code.Created, global::@Errorka.@Playground.@Service.Created());
-			}
-			public global::System.Boolean IsCreated([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out global::@System.@String value)
-			{
-				value = this.Value is global::@System.@String ? (global::@System.@String)this.Value : default;
-				return this.Code == global::@Errorka.@Playground.@Service.Code.Created;
-			}
 			public static global::@Errorka.@Playground.@Service.@Lookup NotFound()
 			{
 				return new global::@Errorka.@Playground.@Service.@Lookup(global::@Errorka.@Playground.@Service.Code.NotFound, global::@Errorka.@Playground.@Service.NotFound());

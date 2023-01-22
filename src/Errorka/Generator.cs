@@ -205,7 +205,7 @@ namespace Errorka
                                         output.GetAutoProperty($"global::{part.Symbol}.Code", "Code");
                                         output.GetAutoProperty("global::System.Object", "Value");
 
-                                        Creation(variants, output, part, area.Name);
+                                        Creation(variantList, output, part, area.Name);
 
                                         using (output.StartLine())
                                         {
