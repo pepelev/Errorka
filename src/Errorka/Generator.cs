@@ -69,9 +69,10 @@ namespace Errorka
                         return;
                     }
 
-                    var declarations = classes.Distinct().Select(
-                        declaration => ClassDeclaration.TryCreate(compilation, declaration)!
-                    ).Where(declaration => declaration != null);
+                    var declarations = classes
+                        .Distinct()
+                        .Select(declaration => ClassDeclaration.TryCreate(compilation, declaration))
+                        .NotNull();
                     var parts = ClassDeclaration.Parts.Join(declarations).ToList();
 
                     var output = new Output();
