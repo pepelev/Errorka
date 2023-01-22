@@ -16,12 +16,13 @@ internal sealed class Method
     public ITypeSymbol ReturnType => symbol.ReturnType;
     public ImmutableArray<IParameterSymbol> Parameters => symbol.Parameters;
 
-    public IEnumerable<string> Areas => symbol
+    public IEnumerable<Area> Areas => symbol
         .GetAttributes()
         .Where(attribute => attribute.AttributeClass?.ToString() == "Errorka.AreaAttribute")
         .Select(
             attribute => attribute.ConstructorArguments is { IsDefaultOrEmpty: false } arguments
                 ? arguments[0].Value as string
                 : null
-        ).NotNull();
+        ).NotNull()
+        .Select(area => new Area(area));
 }

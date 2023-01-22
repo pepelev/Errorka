@@ -91,9 +91,8 @@ namespace Errorka
                                             ? compilation.GetSpecialType(SpecialType.System_Object)
                                             : group.Item.First().ReturnType
                                         : compilation.GetSpecialType(SpecialType.System_Object),
-                                    new HashSet<string>(
-                                        group.Item.SelectMany(method => method.Areas),
-                                        StringComparer.Ordinal
+                                    new HashSet<Area>(
+                                        group.Item.SelectMany(method => method.Areas)
                                     )
                                 )
                             ).ToList();
@@ -116,12 +115,12 @@ namespace Errorka
                                     var set = new IntSet(maxIndex, indexList);
                                     return (Area: area, indexList.Count, Variants: variantList, Set: set);
                                 }
-                            ).OrderByDescending(triple => triple.Count).ThenBy(triple => triple.Area, StringComparer.Ordinal)
+                            ).OrderByDescending(triple => triple.Count).ThenBy(triple => triple.Area)
                             .ToList();
 
-                        var areaGoes = Yield().ToLookup(x => x.FromArea, x => x.ToArea);
+                        var areaGoes = Yield().ToLookup(x => x.From, x => x.To);
 
-                        IEnumerable<(string FromArea, string ToArea)> Yield()
+                        IEnumerable<(Area From, Area To)> Yield()
                         {
                             for (var i = 0; i < decreasingAreas.Count - 1; i++)
                             {
@@ -194,19 +193,19 @@ namespace Errorka
                             }
                         }
 
-                        void PrintArea(string area, List<Variant> variantList)
+                        void PrintArea(Area area, List<Variant> variantList)
                         {
                             using (output.OpenNamespace(ContentFactory.Declaration(part.Symbol.ContainingNamespace)))
                             {
                                 using (Class.Open(output, "partial", ContentFactory.From(part.Symbol.Name).VerbatimPrefixed()))
                                 {
-                                    using (output.OpenStruct(area))
+                                    using (output.OpenStruct(area.Name))
                                     {
-                                        output.Constructor(area, part.Symbol);
+                                        output.Constructor(area.Name, part.Symbol);
                                         output.GetAutoProperty($"global::{part.Symbol}.Code", "Code");
                                         output.GetAutoProperty("global::System.Object", "Value");
 
-                                        Creation(variants, output, part, area);
+                                        Creation(variants, output, part, area.Name);
 
                                         using (output.StartLine())
                                         {
@@ -232,9 +231,9 @@ namespace Errorka
                                                 output.Write("public ");
                                                 ContentFactory.From(part.Symbol).Write(output);
                                                 output.Write(".@");
-                                                output.Write(next);
+                                                output.Write(next.Name);
                                                 output.Write(" @To");
-                                                output.Write(next);
+                                                output.Write(next.Name);
                                                 output.Write("()");
                                             }
 
@@ -245,7 +244,7 @@ namespace Errorka
                                                     output.Write("return new ");
                                                     ContentFactory.From(part.Symbol).Write(output);
                                                     output.Write(".@");
-                                                    output.Write(next);
+                                                    output.Write(next.Name);
                                                     output.Write("(this.Code, this.Value);");
                                                 }
                                             }
@@ -382,22 +381,4 @@ namespace Errorka
 
             return false;
         });
-}
-
-internal sealed class Variant
-{
-    public Variant(string name, int index, IEnumerable<Method> methods, ITypeSymbol type, HashSet<string> areas)
-    {
-        Name = name;
-        Index = index;
-        Methods = methods;
-        Type = type;
-        Areas = areas;
-    }
-
-    public string Name { get; }
-    public int Index { get; }
-    public IEnumerable<Method> Methods { get; }
-    public ITypeSymbol Type { get; }
-    public HashSet<string> Areas { get; }
 }
