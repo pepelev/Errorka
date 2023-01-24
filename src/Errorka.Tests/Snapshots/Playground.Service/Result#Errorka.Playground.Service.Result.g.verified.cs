@@ -11,7 +11,7 @@ namespace @Errorka.@Playground
 				this.Code = code;
 				this.Value = value;
 			}
-			public global::Errorka.Playground.Service.Code Code { get; }
+			public global::@Errorka.@Playground.@Service.Code Code { get; }
 			public global::System.Object Value { get; }
 			public static global::@Errorka.@Playground.@Service.@Result Ok(global::@System.@String content)
 			{

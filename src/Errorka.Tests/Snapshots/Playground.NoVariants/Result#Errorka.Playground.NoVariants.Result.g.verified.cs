@@ -11,7 +11,7 @@ namespace @Errorka.@Playground
 				this.Code = code;
 				this.Value = value;
 			}
-			public global::Errorka.Playground.NoVariants.Code Code { get; }
+			public global::@Errorka.@Playground.@NoVariants.Code Code { get; }
 			public global::System.Object Value { get; }
 		}
 	}

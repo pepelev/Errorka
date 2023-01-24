@@ -62,17 +62,6 @@ internal sealed class Output
         return OpenBlock();
     }
 
-    public void GetAutoProperty(string type, string name)
-    {
-        buffer
-            .Append('\t', indent)
-            .Append("public ")
-            .Append(type)
-            .Append(' ')
-            .Append(name)
-            .AppendLine(" { get; }");
-    }
-
     public void Write(string content)
     {
         if (!started)

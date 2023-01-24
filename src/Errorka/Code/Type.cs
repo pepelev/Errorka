@@ -3,21 +3,21 @@ using Microsoft.CodeAnalysis;
 
 namespace Errorka.Code;
 
-internal readonly struct Type<T> : IDisposable
-    where T : Content
+internal readonly struct Type<TName> : IDisposable
+    where TName : Content
 {
-    private readonly T name;
+    private readonly TName name;
     private readonly Output output;
     private readonly Output.Block block;
 
-    private Type(T name, Output output, Output.Block block)
+    private Type(TName name, Output output, Output.Block block)
     {
         this.name = name;
         this.block = block;
         this.output = output;
     }
 
-    public static Type<T> Open(Output output, string modifiers, string type, T name)
+    public static Type<TName> Open(Output output, string modifiers, string type, TName name)
     {
         using (output.StartLine())
         {
@@ -29,7 +29,7 @@ internal readonly struct Type<T> : IDisposable
         }
 
         var block = output.OpenBlock();
-        return new Type<T>(name, output, block);
+        return new Type<TName>(name, output, block);
     }
 
     public void Constructor(INamedTypeSymbol rootType)
@@ -55,6 +55,20 @@ internal readonly struct Type<T> : IDisposable
         {
             output.WriteLine(ContentFactory.From("this.Code = code;"));
             output.WriteLine(ContentFactory.From("this.Value = value;"));
+        }
+    }
+
+    public void GetAutoProperty<TType, TPropertyName>(TType type, TPropertyName propertyName)
+        where TType : Content
+        where TPropertyName : Content
+    {
+        using (output.StartLine())
+        {
+            output.Write("public ");
+            type.Write(output);
+            output.Write(" ");
+            propertyName.Write(output);
+            output.Write(" { get; }");
         }
     }
 

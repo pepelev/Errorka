@@ -194,11 +194,7 @@ namespace Errorka
                                 {
                                     using (var @struct = Struct.Open(output, "public readonly", ContentFactory.From("Result")))
                                     {
-                                        @struct.Constructor(part.Symbol);
-                                        output.GetAutoProperty($"global::{part.Symbol}.Code", "Code");
-                                        output.GetAutoProperty("global::System.Object", "Value");
-
-                                        Creation(variants, output, part, "Result");
+                                        Creation(variants, output, part, "Result", @struct);
                                     }
                                 }
                             }
@@ -212,11 +208,7 @@ namespace Errorka
                                 {
                                     using (var @struct = Struct.Open(output, "public readonly", ContentFactory.From(area.Name).VerbatimPrefixed()))
                                     {
-                                        @struct.Constructor(part.Symbol);
-                                        output.GetAutoProperty($"global::{part.Symbol}.Code", "Code");
-                                        output.GetAutoProperty("global::System.Object", "Value");
-
-                                        Creation(variantList, output, part, area.Name);
+                                        Creation(variantList, output, part, area.Name, @struct);
 
                                         using (output.StartLine())
                                         {
@@ -283,8 +275,22 @@ namespace Errorka
             }
         );
 
-        void Creation(List<Variant> variants, Output output, ClassDeclaration.Parts part, string returnType)
+        void Creation<T>(List<Variant> variants, Output output, ClassDeclaration.Parts part, string returnType, Type<T> @struct)
+            where T : Content
         {
+            @struct.Constructor(part.Symbol);
+            @struct.GetAutoProperty(
+                ContentFactory.Dotted(
+                    ContentFactory.From(part.Symbol),
+                    ContentFactory.From("Code")
+                ),
+                ContentFactory.From("Code")
+            );
+            @struct.GetAutoProperty(
+                ContentFactory.From("global::System.Object"),
+                ContentFactory.From("Value")
+            );
+
             foreach (var variant in variants)
             {
                 foreach (var method in variant.Methods)
