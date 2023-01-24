@@ -3,10 +3,10 @@ namespace @Errorka.@Playground
 {
 	partial class @Service
 	{
-		public readonly struct @Result
+		public readonly struct Result
 		{
 			[global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-			internal @Result(global::Errorka.Playground.Service.Code code, global::System.Object value)
+			internal Result(global::@Errorka.@Playground.@Service.Code code, global::System.Object value)
 			{
 				this.Code = code;
 				this.Value = value;

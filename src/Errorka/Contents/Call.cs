@@ -2,14 +2,14 @@ using Errorka.Code;
 
 namespace Errorka.Contents;
 
-internal readonly struct Call<T1, T2> : Content
-    where T1 : Content
-    where T2 : Content
+internal readonly struct Call<TMethod, TArguments> : Content
+    where TMethod : Content
+    where TArguments : Content
 {
-    private readonly T1 method;
-    private readonly T2 arguments;
+    private readonly TMethod method;
+    private readonly TArguments arguments;
 
-    public Call(T1 method, T2 arguments)
+    public Call(TMethod method, TArguments arguments)
     {
         this.method = method;
         this.arguments = arguments;
@@ -18,9 +18,7 @@ internal readonly struct Call<T1, T2> : Content
     public void Write(Output output)
     {
         method.Write(output);
-        output.Write("(");
-        arguments.Write(output);
-        output.Write(")");
+        new ParenthesesEnclosed<TArguments>(arguments).Write(output);
     }
 
     public override string ToString() => this.Print();

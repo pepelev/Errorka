@@ -2,14 +2,14 @@ using Errorka.Code;
 
 namespace Errorka.Contents;
 
-internal readonly struct Dotted2<T1, T2> : Content
-    where T1 : Content
-    where T2 : Content
+internal readonly struct Parameter<TType, TName> : Content
+    where TType : Content
+    where TName : Content
 {
-    private readonly T1 first;
-    private readonly T2 second;
+    private readonly TType first;
+    private readonly TName second;
 
-    public Dotted2(T1 first, T2 second)
+    public Parameter(TType first, TName second)
     {
         this.first = first;
         this.second = second;
@@ -18,7 +18,7 @@ internal readonly struct Dotted2<T1, T2> : Content
     public void Write(Output output)
     {
         first.Write(output);
-        output.Write(".");
+        output.Write(" ");
         second.Write(output);
     }
 

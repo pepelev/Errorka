@@ -15,7 +15,7 @@ internal readonly struct ParametersArguments : Content
 
     public void Write(Output output)
     {
-        var arguments = output.Arguments();
+        var arguments = output.CommaSeparated();
         foreach (var parameter in parameters)
         {
             arguments.Append(ContentFactory.From(parameter.Name));

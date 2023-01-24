@@ -62,26 +62,6 @@ internal sealed class Output
         return OpenBlock();
     }
 
-    public void Constructor(string typeName, INamedTypeSymbol rootType)
-    {
-        Write("[global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]");
-        EndLine();
-        buffer
-            .Append('\t', indent)
-            .Append("internal @")
-            .Append(typeName)
-            .Append("(global::")
-            .Append(rootType)
-            .AppendLine(".Code code, global::System.Object value)");
-        using (OpenBlock())
-        {
-            Write("this.Code = code;");
-            EndLine();
-            Write("this.Value = value;");
-            EndLine();
-        }
-    }
-
     public void GetAutoProperty(string type, string name)
     {
         buffer
@@ -106,14 +86,21 @@ internal sealed class Output
 
     public Line StartLine() => new(this);
 
+    public void WriteLine<T>(T content) where T : Content
+    {
+        content.Write(this);
+        EndLine();
+    }
+
     private void EndLine()
     {
         buffer.AppendLine();
         started = false;
     }
 
+    // todo kill in favour of CommaSeparatedList
     public ParameterList Parameters() => new(this);
-    public ArgumentList Arguments() => new(this);
+    public CommaSeparatedList CommaSeparated() => new(this);
 
     public void Clear()
     {
@@ -196,12 +183,12 @@ internal sealed class Output
         }
     }
 
-    public struct ArgumentList
+    public struct CommaSeparatedList
     {
         private bool empty = true;
         private readonly Output output;
 
-        public ArgumentList(Output output)
+        public CommaSeparatedList(Output output)
         {
             this.output = output;
         }

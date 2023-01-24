@@ -6,7 +6,7 @@ namespace @Errorka.@Playground
 		public readonly struct @Creation
 		{
 			[global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-			internal @Creation(global::Errorka.Playground.Service.Code code, global::System.Object value)
+			internal @Creation(global::@Errorka.@Playground.@Service.Code code, global::System.Object value)
 			{
 				this.Code = code;
 				this.Value = value;

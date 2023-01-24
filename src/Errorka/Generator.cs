@@ -192,9 +192,9 @@ namespace Errorka
                             {
                                 using (Class.Open(output, "partial", ContentFactory.From(part.Symbol.Name).VerbatimPrefixed()))
                                 {
-                                    using (output.OpenStruct("Result"))
+                                    using (var @struct = Struct.Open(output, "public readonly", ContentFactory.From("Result")))
                                     {
-                                        output.Constructor("Result", part.Symbol);
+                                        @struct.Constructor(part.Symbol);
                                         output.GetAutoProperty($"global::{part.Symbol}.Code", "Code");
                                         output.GetAutoProperty("global::System.Object", "Value");
 
@@ -210,9 +210,9 @@ namespace Errorka
                             {
                                 using (Class.Open(output, "partial", ContentFactory.From(part.Symbol.Name).VerbatimPrefixed()))
                                 {
-                                    using (output.OpenStruct(area.Name))
+                                    using (var @struct = Struct.Open(output, "public readonly", ContentFactory.From(area.Name).VerbatimPrefixed()))
                                     {
-                                        output.Constructor(area.Name, part.Symbol);
+                                        @struct.Constructor(part.Symbol);
                                         output.GetAutoProperty($"global::{part.Symbol}.Code", "Code");
                                         output.GetAutoProperty("global::System.Object", "Value");
 
@@ -316,9 +316,9 @@ namespace Errorka
                             output.Write(".@");
                             output.Write(returnType);
                             output.Write("(");
-                            var arguments = output.Arguments();
+                            var arguments = output.CommaSeparated();
                             arguments.Append(
-                                ContentFactory.From(
+                                ContentFactory.Dotted(
                                     ContentFactory.From(part.Symbol),
                                     ContentFactory.From("Code"),
                                     ContentFactory.From(variant.Name)
@@ -326,7 +326,7 @@ namespace Errorka
                             );
                             arguments.Append(
                                 ContentFactory.Call(
-                                    ContentFactory.From(
+                                    ContentFactory.Dotted(
                                         ContentFactory.From(part.Symbol),
                                         ContentFactory.From(variant.Name)
                                     ),

@@ -6,7 +6,7 @@ namespace @Errorka.@Playground
 		public readonly struct @Lookup
 		{
 			[global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-			internal @Lookup(global::Errorka.Playground.Service.Code code, global::System.Object value)
+			internal @Lookup(global::@Errorka.@Playground.@Service.Code code, global::System.Object value)
 			{
 				this.Code = code;
 				this.Value = value;
