@@ -1,4 +1,5 @@
-﻿using Errorka.Code;
+﻿using System.Text;
+using Errorka.Code;
 
 namespace Errorka.Contents;
 
@@ -6,7 +7,7 @@ internal static class ContentExtension
 {
     public static string Print(this Content content)
     {
-        var output = new Output();
+        var output = new Output(new StringBuilder(128));
         content.Write(output);
         return output.ToString();
     }

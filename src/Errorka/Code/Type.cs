@@ -17,7 +17,7 @@ internal readonly struct Type<TName> : IDisposable
         this.output = output;
     }
 
-    public static Type<TName> Open(Output output, string modifiers, string type, TName name)
+    public static Type<TName> Open(Output output, string modifiers, string type, in TName name)
     {
         using (output.StartLine())
         {

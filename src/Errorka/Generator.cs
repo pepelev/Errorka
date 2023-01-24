@@ -11,6 +11,8 @@ namespace Errorka;
 [Generator]
 public sealed class Generator : IIncrementalGenerator
 {
+    private volatile Output? pooled;
+
     private const string Attributes = @"
 namespace Errorka
 {
@@ -75,7 +77,7 @@ namespace Errorka
                         .NotNull();
                     var parts = ClassDeclaration.Parts.Join(declarations).ToList();
 
-                    var output = new Output();
+                    var output = Interlocked.Exchange(ref pooled, null) ?? new Output(new(80 * 1024 / sizeof(char)));
                     foreach (var part in parts)
                     {
                         ITypeSymbol CommonType(IEnumerable<ITypeSymbol> types)
@@ -94,6 +96,7 @@ namespace Errorka
                             return compilation.GetSpecialType(SpecialType.System_Object);
                         }
 
+                        context.CancellationToken.ThrowIfCancellationRequested();
                         var variants = part.Methods()
                             .GroupBy(method => method.Name, StringComparer.Ordinal)
                             .Indexed(startIndex: 1)
@@ -134,6 +137,7 @@ namespace Errorka
                         {
                             for (var i = 0; i < decreasingAreas.Count - 1; i++)
                             {
+                                context.CancellationToken.ThrowIfCancellationRequested();
                                 var aSet = decreasingAreas[i].Set;
                                 var aArea = decreasingAreas[i].Area;
                                 for (var j = i + 1; j < decreasingAreas.Count; j++)
@@ -194,7 +198,7 @@ namespace Errorka
                                 {
                                     using (var @struct = Struct.Open(output, "public readonly", ContentFactory.From("Result")))
                                     {
-                                        Creation(variants, output, part, "Result", @struct);
+                                        Creation(variants, output, part, "Result", @struct, context.CancellationToken);
                                     }
                                 }
                             }
@@ -208,7 +212,7 @@ namespace Errorka
                                 {
                                     using (var @struct = Struct.Open(output, "public readonly", ContentFactory.From(area.Name).VerbatimPrefixed()))
                                     {
-                                        Creation(variantList, output, part, area.Name, @struct);
+                                        Creation(variantList, output, part, area.Name, @struct, context.CancellationToken);
 
                                         using (output.StartLine())
                                         {
@@ -257,6 +261,12 @@ namespace Errorka
                             }
                         }
                     }
+
+                    Interlocked.CompareExchange(
+                        ref pooled,
+                        value: output,
+                        comparand: null
+                    );
                 }
                 catch (Exception e)
                 {
@@ -275,7 +285,13 @@ namespace Errorka
             }
         );
 
-        void Creation<T>(List<Variant> variants, Output output, ClassDeclaration.Parts part, string returnType, Type<T> @struct)
+        void Creation<T>(
+            List<Variant> variants,
+            Output output,
+            ClassDeclaration.Parts part,
+            string returnType,
+            Type<T> @struct,
+            CancellationToken token)
             where T : Content
         {
             @struct.Constructor(part.Symbol);
@@ -293,6 +309,7 @@ namespace Errorka
 
             foreach (var variant in variants)
             {
+                token.ThrowIfCancellationRequested();
                 foreach (var method in variant.Methods)
                 {
                     using (output.StartLine())

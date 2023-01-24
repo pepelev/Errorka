@@ -7,7 +7,12 @@ internal sealed class Output
 {
     private int indent = 0;
     private bool started = false;
-    private readonly StringBuilder buffer = new(80 * 1024 / sizeof(char));
+    private readonly StringBuilder buffer;
+
+    public Output(StringBuilder buffer)
+    {
+        this.buffer = buffer;
+    }
 
     public Block OpenBlock()
     {
