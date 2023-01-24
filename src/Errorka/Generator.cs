@@ -63,6 +63,7 @@ namespace Errorka
             data,
             (context, entry) =>
             {
+                Output? output = null;
                 try
                 {
                     var (classes, compilation) = entry;
@@ -77,7 +78,7 @@ namespace Errorka
                         .NotNull();
                     var parts = ClassDeclaration.Parts.Join(declarations).ToList();
 
-                    var output = Interlocked.Exchange(ref pooled, null) ?? new Output(new(80 * 1024 / sizeof(char)));
+                    output = Interlocked.Exchange(ref pooled, null) ?? new Output(new(80 * 1024 / sizeof(char)));
                     foreach (var part in parts)
                     {
                         ITypeSymbol CommonType(IEnumerable<ITypeSymbol> types)
@@ -261,12 +262,6 @@ namespace Errorka
                             }
                         }
                     }
-
-                    Interlocked.CompareExchange(
-                        ref pooled,
-                        value: output,
-                        comparand: null
-                    );
                 }
                 catch (Exception e)
                 {
@@ -281,6 +276,17 @@ namespace Errorka
                     context.ReportDiagnostic(
                         Diagnostic.Create(descriptor, location: null, e, e.StackTrace)
                     );
+                }
+                finally
+                {
+                    if (output != null)
+                    {
+                        Interlocked.CompareExchange(
+                            ref pooled,
+                            value: output,
+                            comparand: null
+                        );
+                    }
                 }
             }
         );
