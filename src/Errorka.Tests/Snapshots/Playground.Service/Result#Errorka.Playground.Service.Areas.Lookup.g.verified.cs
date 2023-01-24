@@ -13,7 +13,7 @@ namespace @Errorka.@Playground
 			}
 			public global::@Errorka.@Playground.@Service.Code Code { get; }
 			public global::System.Object Value { get; }
-			public static global::@Errorka.@Playground.@Service.@Lookup Ok(global::@System.@String content)
+			public static global::@Errorka.@Playground.@Service.@Lookup Ok(global::@System.@String @content)
 			{
 				return new global::@Errorka.@Playground.@Service.@Lookup(global::@Errorka.@Playground.@Service.Code.Ok, global::@Errorka.@Playground.@Service.Ok(content));
 			}
@@ -31,7 +31,7 @@ namespace @Errorka.@Playground
 				value = this.Value is global::@System.@String ? (global::@System.@String)this.Value : default;
 				return this.Code == global::@Errorka.@Playground.@Service.Code.NotFound;
 			}
-			public static global::@Errorka.@Playground.@Service.@Lookup Moved(global::@System.@String where)
+			public static global::@Errorka.@Playground.@Service.@Lookup Moved(global::@System.@String @where)
 			{
 				return new global::@Errorka.@Playground.@Service.@Lookup(global::@Errorka.@Playground.@Service.Code.Moved, global::@Errorka.@Playground.@Service.Moved(where));
 			}

@@ -19,6 +19,11 @@ internal static class ContentFactory
     public static Verbatim From(string value) => new(value);
     public static Type From(ITypeSymbol symbol) => new(symbol);
 
+    public static Parameter<Type, VerbatimPrefixed<Verbatim>> Parameter(IParameterSymbol parameter) => Parameter(
+        From(parameter.Type),
+        From(parameter.Name).VerbatimPrefixed()
+    );
+
     public static Parameter<TType, TName> Parameter<TType, TName>(TType type, TName name)
         where TType : Content
         where TName : Content

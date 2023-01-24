@@ -1,6 +1,5 @@
 ﻿using System.Text;
 using Errorka.Contents;
-using Microsoft.CodeAnalysis;
 
 namespace Errorka.Code;
 
@@ -53,15 +52,6 @@ internal sealed class Output
         return OpenBlock();
     }
 
-    public Block OpenStruct(string name)
-    {
-        buffer
-            .Append('\t', indent)
-            .Append("public readonly struct @")
-            .AppendLine(name);
-        return OpenBlock();
-    }
-
     public void Write(string content)
     {
         if (!started)
@@ -87,8 +77,6 @@ internal sealed class Output
         started = false;
     }
 
-    // todo kill in favour of CommaSeparatedList
-    public ParameterList Parameters() => new(this);
     public CommaSeparatedList CommaSeparated() => new(this);
 
     public void Clear()
@@ -140,35 +128,6 @@ internal sealed class Output
         public void Dispose()
         {
             output.EndLine();
-        }
-    }
-
-    public struct ParameterList
-    {
-        private bool empty = true;
-        private readonly Output output;
-
-        public ParameterList(Output output)
-        {
-            this.output = output;
-        }
-
-        public void Append(IParameterSymbol parameter)
-        {
-            Append(parameter.Type, parameter.Name);
-        }
-
-        private void Append(ITypeSymbol type, string name)
-        {
-            if (!empty)
-            {
-                output.Write(", ");
-            }
-
-            ContentFactory.From(type).Write(output);
-            output.Write(" ");
-            output.Write(name);
-            empty = false;
         }
     }
 

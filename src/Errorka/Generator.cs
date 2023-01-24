@@ -304,10 +304,10 @@ namespace Errorka
                         output.Write(" ");
                         output.Write(variant.Name);
                         output.Write("(");
-                        var parameters = output.Parameters();
+                        var parameters = output.CommaSeparated();
                         foreach (var parameter in method.Parameters)
                         {
-                            parameters.Append(parameter);
+                            parameters.Append(ContentFactory.Parameter(parameter));
                         }
 
                         output.Write(")");
