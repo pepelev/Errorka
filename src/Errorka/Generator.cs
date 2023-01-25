@@ -232,6 +232,26 @@ namespace Errorka
                                             }
                                         }
 
+                                        using (output.StartLine())
+                                        {
+                                            output.Write("public static implicit operator ");
+                                            ContentFactory.Dotted(
+                                                ContentFactory.From(part.Symbol),
+                                                ContentFactory.From("Result")
+                                            ).Write(output);
+                                            ContentFactory.Parentheses(
+                                                ContentFactory.Parameter(
+                                                    ContentFactory.From(area.Name).VerbatimPrefixed(),
+                                                    ContentFactory.From("area")
+                                                )
+                                            ).Write(output);
+                                        }
+
+                                        using (output.OpenBlock())
+                                        {
+                                            output.WriteLine(ContentFactory.From("return area.ToResult();"));
+                                        }
+
                                         foreach (var next in areaGoes[area])
                                         {
                                             using (output.StartLine())
@@ -254,6 +274,31 @@ namespace Errorka
                                                     output.Write(".@");
                                                     output.Write(next.Name);
                                                     output.Write("(this.Code, this.Value);");
+                                                }
+                                            }
+
+                                            using (output.StartLine())
+                                            {
+                                                output.Write("public static implicit operator ");
+                                                ContentFactory.Dotted(
+                                                    ContentFactory.From(part.Symbol),
+                                                    ContentFactory.From(next.Name).VerbatimPrefixed()
+                                                ).Write(output);
+                                                ContentFactory.Parentheses(
+                                                    ContentFactory.Parameter(
+                                                        ContentFactory.From(area.Name).VerbatimPrefixed(),
+                                                        ContentFactory.From("area")
+                                                    )
+                                                ).Write(output);
+                                            }
+
+                                            using (output.OpenBlock())
+                                            {
+                                                using (output.StartLine())
+                                                {
+                                                    output.Write("return area.@To");
+                                                    output.Write(next.Name);
+                                                    output.Write("();");
                                                 }
                                             }
                                         }

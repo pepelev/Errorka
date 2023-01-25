@@ -62,6 +62,10 @@ namespace @Errorka.@Playground
 			{
 				return new global::@Errorka.@Playground.@Service.Result(this.Code, this.Value);
 			}
+			public static implicit operator global::@Errorka.@Playground.@Service.Result(@Lookup area)
+			{
+				return area.ToResult();
+			}
 		}
 	}
 }

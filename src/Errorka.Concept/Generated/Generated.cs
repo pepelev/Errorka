@@ -50,12 +50,18 @@ namespace @Errorka.@Concept
             {
                 return new global::@Errorka.@Concept.@Outcome.Result(this.Code, this.Value);
             }
-            public static implicit operator global::@Errorka.@Concept.@Outcome.Result(@Access area) => area.ToResult();
+            public static implicit operator global::@Errorka.@Concept.@Outcome.Result(@Access area)
+            {
+                return area.ToResult();
+            }
             public global::@Errorka.@Concept.@Outcome.@Users @ToUsers()
             {
                 return new global::@Errorka.@Concept.@Outcome.@Users(this.Code, this.Value);
             }
-            public static implicit operator global::@Errorka.@Concept.@Outcome.@Users(@Access area) => area.ToUsers();
+            public static implicit operator global::@Errorka.@Concept.@Outcome.@Users(@Access area)
+            {
+                return area.ToUsers();
+            }
         }
     }
 }

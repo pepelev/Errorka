@@ -35,13 +35,25 @@ namespace @Errorka.@Playground
 			{
 				return new global::@Errorka.@Playground.@Service.Result(this.Code, this.Value);
 			}
+			public static implicit operator global::@Errorka.@Playground.@Service.Result(@Access area)
+			{
+				return area.ToResult();
+			}
 			public global::@Errorka.@Playground.@Service.@Lookup @ToLookup()
 			{
 				return new global::@Errorka.@Playground.@Service.@Lookup(this.Code, this.Value);
 			}
+			public static implicit operator global::@Errorka.@Playground.@Service.@Lookup(@Access area)
+			{
+				return area.@ToLookup();
+			}
 			public global::@Errorka.@Playground.@Service.@Creation @ToCreation()
 			{
 				return new global::@Errorka.@Playground.@Service.@Creation(this.Code, this.Value);
+			}
+			public static implicit operator global::@Errorka.@Playground.@Service.@Creation(@Access area)
+			{
+				return area.@ToCreation();
 			}
 		}
 	}
