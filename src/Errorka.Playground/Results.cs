@@ -3,8 +3,7 @@
 [Result]
 public partial class Results
 {
-    [Area("Memory")]
-    [Area("Disk")]
+    [Area("Disk"), Area("Memory")]
     private static bool MemoryFailed()
     {
         return Code.MemoryFailed == Code.MemoryFailed;

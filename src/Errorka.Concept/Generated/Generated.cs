@@ -1,106 +1,190 @@
-﻿namespace Errorka
+﻿// ReSharper disable RedundantNameQualifier
+// ReSharper disable RedundantAttributeUsageProperty
+// ReSharper disable MemberHidesStaticFromOuterClass
+// ReSharper disable UnusedMember.Global
+// ReSharper disable RedundantNullableFlowAttribute
+// ReSharper disable MemberCanBePrivate.Global
+namespace Errorka
 {
-    [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
-    public sealed class AreaAttribute : Attribute
+    [global::System.AttributeUsage(global::System.AttributeTargets.Class, AllowMultiple = false)]
+    internal sealed class ResultAttribute : global::System.Attribute
     {
-        public AreaAttribute(string name)
+    }
+
+    [global::System.AttributeUsage(global::System.AttributeTargets.Method, AllowMultiple = true)]
+    internal sealed class AreaAttribute : global::System.Attribute
+    {
+        public AreaAttribute(global::System.String name)
         {
             Name = name;
         }
 
-        public string Name { get; }
-    }
-
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
-    public sealed class ResultsAttribute : Attribute
-    {
+        public global::System.String Name { get; }
     }
 }
 
-namespace Errorka.Concept
+namespace @Errorka.@Concept
 {
-    partial class Results
+    partial class @Outcome
     {
-        public enum Code
-        {
-            UserNotExists = 1,
-            AccessDenied = 2,
-            ResourceLocked = 3
-        }
-    }
-
-    partial class Results
-    {
-        public readonly struct Result
+        public readonly struct @Access
         {
             [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-            internal Result(global::Errorka.Concept.Results.Code code, global::System.Object value)
+            internal @Access(global::@Errorka.@Concept.@Outcome.Code code, global::System.Object value)
             {
                 this.Code = code;
                 this.Value = value;
             }
-
-            public global::Errorka.Concept.Results.Code Code { get; }
+            public global::@Errorka.@Concept.@Outcome.Code Code { get; }
             public global::System.Object Value { get; }
-
-            public static global::Errorka.Concept.Results.Result UserNotExists() => new global::Errorka.Concept.Results.Result(global::Errorka.Concept.Results.Code.UserNotExists, global::Errorka.Concept.Results.UserNotExists());
-
-            public global::System.Boolean IsUserNotExists([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out global::System.String? value)
+            public static global::@Errorka.@Concept.@Outcome.@Access AccessDenied()
             {
-                value = Value as global::System.String;
-                return Code == global::Errorka.Concept.Results.Code.UserNotExists;
+                return new global::@Errorka.@Concept.@Outcome.@Access(global::@Errorka.@Concept.@Outcome.Code.AccessDenied, global::@Errorka.@Concept.@Outcome.AccessDenied());
             }
-
-            public global::System.Boolean IsAccessDenied([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out global::System.Object? value)
+            public global::System.Boolean IsAccessDenied([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out global::@System.@Object value)
             {
-                value = Value as global::System.Object;
-                return Code == global::Errorka.Concept.Results.Code.AccessDenied;
+                value = this.Value is global::@System.@Object ? (global::@System.@Object)this.Value : default;
+                return this.Code == global::@Errorka.@Concept.@Outcome.Code.AccessDenied;
             }
-        }
-
-        public readonly struct Users
-        {
-            [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-            internal Users(global::Errorka.Concept.Results.Code code, global::System.Object value)
+            public global::@Errorka.@Concept.@Outcome.Result ToResult()
             {
-                Code = code;
-                Value = value;
+                return new global::@Errorka.@Concept.@Outcome.Result(this.Code, this.Value);
             }
-
-            public Code Code { get; }
-            public object Value { get; }
-
-            public static Users UserNotExists() => new(Code.UserNotExists, Results.UserNotExists());
-            public static Users AccessDenied() => new(Code.AccessDenied, Results.AccessDenied());
-            public Result ToResult() => new(Code, Value);
-
-            public global::System.Boolean IsUserNotExists([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out global::System.String? value)
+            public static implicit operator global::@Errorka.@Concept.@Outcome.Result(@Access area) => area.ToResult();
+            public global::@Errorka.@Concept.@Outcome.@Users @ToUsers()
             {
-                value = Value as global::System.String;
-                return Code == global::Errorka.Concept.Results.Code.UserNotExists;
+                return new global::@Errorka.@Concept.@Outcome.@Users(this.Code, this.Value);
             }
-
-            public global::System.Boolean IsAccessDenied([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out global::System.Object? value)
-            {
-                value = Value as global::System.Object;
-                return Code == global::Errorka.Concept.Results.Code.AccessDenied;
-            }
-        }
-
-        public readonly struct Access
-        {
-            [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-            internal Access(Code code, object value)
-            {
-                Code = code;
-                Value = value;
-            }
-
-            public Code Code { get; }
-            public object Value { get; }
-
-            public static Access AccessDenied() => new(Code.AccessDenied, Results.AccessDenied());
-            public Users ToUsers() => new(this.Code, this.Value);
+            public static implicit operator global::@Errorka.@Concept.@Outcome.@Users(@Access area) => area.ToUsers();
         }
     }
+}
+
+namespace @Errorka.@Concept
+{
+    partial class @Outcome
+    {
+        public readonly struct @Resources
+        {
+            [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+            internal @Resources(global::@Errorka.@Concept.@Outcome.Code code, global::System.Object value)
+            {
+                this.Code = code;
+                this.Value = value;
+            }
+            public global::@Errorka.@Concept.@Outcome.Code Code { get; }
+            public global::System.Object Value { get; }
+            public static global::@Errorka.@Concept.@Outcome.@Resources ResourceLocked(global::@System.@Int32 @userId)
+            {
+                return new global::@Errorka.@Concept.@Outcome.@Resources(global::@Errorka.@Concept.@Outcome.Code.ResourceLocked, global::@Errorka.@Concept.@Outcome.ResourceLocked(userId));
+            }
+            public global::System.Boolean IsResourceLocked([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out global::@System.@ValueTuple value)
+            {
+                value = this.Value is global::@System.@ValueTuple ? (global::@System.@ValueTuple)this.Value : default;
+                return this.Code == global::@Errorka.@Concept.@Outcome.Code.ResourceLocked;
+            }
+            public global::@Errorka.@Concept.@Outcome.Result ToResult()
+            {
+                return new global::@Errorka.@Concept.@Outcome.Result(this.Code, this.Value);
+            }
+        }
+    }
+}
+
+namespace @Errorka.@Concept
+{
+    partial class @Outcome
+    {
+        public readonly struct @Users
+        {
+            [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+            internal @Users(global::@Errorka.@Concept.@Outcome.Code code, global::System.Object value)
+            {
+                this.Code = code;
+                this.Value = value;
+            }
+            public global::@Errorka.@Concept.@Outcome.Code Code { get; }
+            public global::System.Object Value { get; }
+            public static global::@Errorka.@Concept.@Outcome.@Users UserNotExists()
+            {
+                return new global::@Errorka.@Concept.@Outcome.@Users(global::@Errorka.@Concept.@Outcome.Code.UserNotExists, global::@Errorka.@Concept.@Outcome.UserNotExists());
+            }
+            public global::System.Boolean IsUserNotExists([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out global::@System.@String value)
+            {
+                value = this.Value is global::@System.@String ? (global::@System.@String)this.Value : default;
+                return this.Code == global::@Errorka.@Concept.@Outcome.Code.UserNotExists;
+            }
+            public static global::@Errorka.@Concept.@Outcome.@Users AccessDenied()
+            {
+                return new global::@Errorka.@Concept.@Outcome.@Users(global::@Errorka.@Concept.@Outcome.Code.AccessDenied, global::@Errorka.@Concept.@Outcome.AccessDenied());
+            }
+            public global::System.Boolean IsAccessDenied([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out global::@System.@Object value)
+            {
+                value = this.Value is global::@System.@Object ? (global::@System.@Object)this.Value : default;
+                return this.Code == global::@Errorka.@Concept.@Outcome.Code.AccessDenied;
+            }
+            public global::@Errorka.@Concept.@Outcome.Result ToResult()
+            {
+                return new global::@Errorka.@Concept.@Outcome.Result(this.Code, this.Value);
+            }
+        }
+    }
+}
+
+namespace @Errorka.@Concept
+{
+    partial class @Outcome
+    {
+        public enum Code
+        {
+            @UserNotExists = 1,
+            @AccessDenied = 2,
+            @ResourceLocked = 3,
+        }
+    }
+}
+
+namespace @Errorka.@Concept
+{
+	partial class @Outcome
+	{
+		public readonly struct Result
+		{
+			[global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+			internal Result(global::@Errorka.@Concept.@Outcome.Code code, global::System.Object value)
+			{
+				this.Code = code;
+				this.Value = value;
+			}
+			public global::@Errorka.@Concept.@Outcome.Code Code { get; }
+			public global::System.Object Value { get; }
+			public static global::@Errorka.@Concept.@Outcome.@Result UserNotExists()
+			{
+				return new global::@Errorka.@Concept.@Outcome.@Result(global::@Errorka.@Concept.@Outcome.Code.UserNotExists, global::@Errorka.@Concept.@Outcome.UserNotExists());
+			}
+			public global::System.Boolean IsUserNotExists([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out global::@System.@String value)
+			{
+				value = this.Value is global::@System.@String ? (global::@System.@String)this.Value : default;
+				return this.Code == global::@Errorka.@Concept.@Outcome.Code.UserNotExists;
+			}
+			public static global::@Errorka.@Concept.@Outcome.@Result AccessDenied()
+			{
+				return new global::@Errorka.@Concept.@Outcome.@Result(global::@Errorka.@Concept.@Outcome.Code.AccessDenied, global::@Errorka.@Concept.@Outcome.AccessDenied());
+			}
+			public global::System.Boolean IsAccessDenied([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out global::@System.@Object value)
+			{
+				value = this.Value is global::@System.@Object ? (global::@System.@Object)this.Value : default;
+				return this.Code == global::@Errorka.@Concept.@Outcome.Code.AccessDenied;
+			}
+			public static global::@Errorka.@Concept.@Outcome.@Result ResourceLocked(global::@System.@Int32 @userId)
+			{
+				return new global::@Errorka.@Concept.@Outcome.@Result(global::@Errorka.@Concept.@Outcome.Code.ResourceLocked, global::@Errorka.@Concept.@Outcome.ResourceLocked(userId));
+			}
+			public global::System.Boolean IsResourceLocked([global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out global::@System.@ValueTuple value)
+			{
+				value = this.Value is global::@System.@ValueTuple ? (global::@System.@ValueTuple)this.Value : default;
+				return this.Code == global::@Errorka.@Concept.@Outcome.Code.ResourceLocked;
+			}
+		}
+	}
 }

@@ -13,8 +13,8 @@
 /// Разные исходы могут иметь разную полезную нагрузку.
 /// Достать полезную нагрузку можно с помощью визитора.
 /// </summary>
-[Results]
-public static partial class Results
+[Result]
+public static partial class Outcome
 {
     [Area("Users")]
     private static string UserNotExists() => "user-not-exists";
