@@ -17,7 +17,7 @@ public partial class Results
     [Area("Disk")]
     private static string DiskFailed()
     {
-        if (Result.DiskFailed().IsDiskFailed(out var str))
+        Result.DiskFailed().Match(DiskFailed: s => s.Length, MemoryFailed: s => s.GetHashCode());
         {
             Result.MemoryFailed(10).IsMemoryFailed(out var d);
             var s = d.ToString();

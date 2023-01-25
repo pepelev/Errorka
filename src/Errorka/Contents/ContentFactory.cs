@@ -43,4 +43,19 @@ internal static class ContentFactory
         where T1 : Content
         where T2 : Content
         => new(method, arguments);
+
+    public static Generic<TType, TParameters> Generic<TType, TParameters>(TType type, TParameters parameters)
+        where TType : Content
+        where TParameters : Content
+        => new(type, parameters);
+
+    public static SafeCast<TWhat, TTargetType> SafeCast<TWhat, TTargetType>(TWhat what, TTargetType targetType)
+        where TWhat : Content
+        where TTargetType : Content
+        => new(what, targetType);
+
+    public static Sequence<TContent, TSuffix> Sequence<TContent, TSuffix>(TContent content, TSuffix suffix)
+        where TContent : Content
+        where TSuffix : Content
+        => new(content, suffix);
 }

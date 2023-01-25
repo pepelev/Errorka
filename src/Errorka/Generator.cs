@@ -442,6 +442,132 @@ namespace Errorka
                     }
                 }
             }
+
+            if (variants.Count <= 1)
+                return;
+
+            Match(output, variants, part);
+            MatchWithDefault(output, variants, part);
+        }
+    }
+
+    private static void Match(Output output, List<Variant> variants, ClassDeclaration.Parts part)
+    {
+        using (output.StartLine())
+        {
+            output.Write("public T Match<T>(");
+            var parameter = output.CommaSeparated();
+            foreach (var variant in variants)
+            {
+                parameter.Append(
+                    ContentFactory.Parameter(
+                        ContentFactory.Generic(
+                            ContentFactory.From("global::System.Func"),
+                            ContentFactory.CommaSeparated(
+                                ContentFactory.From(variant.Type),
+                                ContentFactory.From("T")
+                            )
+                        ),
+                        ContentFactory.From(variant.Name).VerbatimPrefixed()
+                    )
+                );
+            }
+
+            output.Write(")");
+        }
+
+        using (output.OpenBlock())
+        {
+            output.WriteLine(ContentFactory.From("switch (this.Code)"));
+            using (output.OpenBlock())
+            {
+                foreach (var variant in variants)
+                {
+                    using (output.StartLine())
+                    {
+                        output.Write("case ");
+                        ContentFactory.Dotted(
+                            ContentFactory.From(part.Symbol),
+                            ContentFactory.From("Code"),
+                            ContentFactory.From(variant.Name).VerbatimPrefixed()
+                        ).Write(output);
+                        output.Write(": return ");
+                        ContentFactory.Call(
+                            ContentFactory.From(variant.Name).VerbatimPrefixed(),
+                            ContentFactory.SafeCast(
+                                ContentFactory.From("this.Value"),
+                                ContentFactory.From(variant.Type)
+                            )
+                        ).Write(output);
+                        output.Write(";");
+                    }
+                }
+
+                output.WriteLine(ContentFactory.From("default: throw new Exception(\"Instance is broken. Code: \" + this.Code);"));
+            }
+        }
+    }
+
+    private static void MatchWithDefault(Output output, List<Variant> variants, ClassDeclaration.Parts part)
+    {
+        using (output.StartLine())
+        {
+            output.Write("public T Match<T>(");
+            var parameter = output.CommaSeparated();
+            parameter.Append(ContentFactory.From("T @default"));
+            foreach (var variant in variants)
+            {
+                parameter.Append(
+                    ContentFactory.Sequence(
+                        ContentFactory.Parameter(
+                            ContentFactory.Generic(
+                                ContentFactory.From("global::System.Func"),
+                                ContentFactory.CommaSeparated(
+                                    ContentFactory.From(variant.Type),
+                                    ContentFactory.From("T")
+                                )
+                            ),
+                            ContentFactory.From(variant.Name).VerbatimPrefixed()
+                        ),
+                        ContentFactory.From(" = null")
+                    )
+                );
+            }
+
+            output.Write(")");
+        }
+
+        using (output.OpenBlock())
+        {
+            output.WriteLine(ContentFactory.From("switch (this.Code)"));
+            using (output.OpenBlock())
+            {
+                foreach (var variant in variants)
+                {
+                    using (output.StartLine())
+                    {
+                        output.Write("case ");
+                        ContentFactory.Dotted(
+                            ContentFactory.From(part.Symbol),
+                            ContentFactory.From("Code"),
+                            ContentFactory.From(variant.Name).VerbatimPrefixed()
+                        ).Write(output);
+                        output.Write(": return ");
+                        ContentFactory.From(variant.Name).VerbatimPrefixed().Write(output);
+                        output.Write(" == null ? @default : ");
+                        ContentFactory.Call(
+                            ContentFactory.From(variant.Name).VerbatimPrefixed(),
+                            ContentFactory.SafeCast(
+                                ContentFactory.From("this.Value"),
+                                ContentFactory.From(variant.Type)
+                            )
+                        ).Write(output);
+                        output.Write(";");
+                    }
+                }
+
+                output.WriteLine(ContentFactory.From("default: throw new Exception(\"Instance is broken. Code: \" + this.Code);"));
+            }
         }
     }
 

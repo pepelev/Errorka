@@ -58,6 +58,30 @@ namespace @Errorka.@Playground
 				value = this.Value is global::@System.@String ? (global::@System.@String)this.Value : default;
 				return this.Code == global::@Errorka.@Playground.@Service.Code.Forbidden;
 			}
+			public T Match<T>(global::System.Func<global::@System.@String, T> @Ok, global::System.Func<global::@System.@String, T> @NotFound, global::System.Func<global::@System.@String, T> @Moved, global::System.Func<global::@System.@String, T> @Unauthorized, global::System.Func<global::@System.@String, T> @Forbidden)
+			{
+				switch (this.Code)
+				{
+					case global::@Errorka.@Playground.@Service.Code.@Ok: return @Ok(this.Value is global::@System.@String ? (global::@System.@String)this.Value : default);
+					case global::@Errorka.@Playground.@Service.Code.@NotFound: return @NotFound(this.Value is global::@System.@String ? (global::@System.@String)this.Value : default);
+					case global::@Errorka.@Playground.@Service.Code.@Moved: return @Moved(this.Value is global::@System.@String ? (global::@System.@String)this.Value : default);
+					case global::@Errorka.@Playground.@Service.Code.@Unauthorized: return @Unauthorized(this.Value is global::@System.@String ? (global::@System.@String)this.Value : default);
+					case global::@Errorka.@Playground.@Service.Code.@Forbidden: return @Forbidden(this.Value is global::@System.@String ? (global::@System.@String)this.Value : default);
+					default: throw new Exception("Instance is broken. Code: " + this.Code);
+				}
+			}
+			public T Match<T>(T @default, global::System.Func<global::@System.@String, T> @Ok = null, global::System.Func<global::@System.@String, T> @NotFound = null, global::System.Func<global::@System.@String, T> @Moved = null, global::System.Func<global::@System.@String, T> @Unauthorized = null, global::System.Func<global::@System.@String, T> @Forbidden = null)
+			{
+				switch (this.Code)
+				{
+					case global::@Errorka.@Playground.@Service.Code.@Ok: return @Ok == null ? @default : @Ok(this.Value is global::@System.@String ? (global::@System.@String)this.Value : default);
+					case global::@Errorka.@Playground.@Service.Code.@NotFound: return @NotFound == null ? @default : @NotFound(this.Value is global::@System.@String ? (global::@System.@String)this.Value : default);
+					case global::@Errorka.@Playground.@Service.Code.@Moved: return @Moved == null ? @default : @Moved(this.Value is global::@System.@String ? (global::@System.@String)this.Value : default);
+					case global::@Errorka.@Playground.@Service.Code.@Unauthorized: return @Unauthorized == null ? @default : @Unauthorized(this.Value is global::@System.@String ? (global::@System.@String)this.Value : default);
+					case global::@Errorka.@Playground.@Service.Code.@Forbidden: return @Forbidden == null ? @default : @Forbidden(this.Value is global::@System.@String ? (global::@System.@String)this.Value : default);
+					default: throw new Exception("Instance is broken. Code: " + this.Code);
+				}
+			}
 			public global::@Errorka.@Playground.@Service.Result ToResult()
 			{
 				return new global::@Errorka.@Playground.@Service.Result(this.Code, this.Value);

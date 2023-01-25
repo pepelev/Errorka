@@ -129,6 +129,27 @@ namespace @Errorka.@Concept
                 value = this.Value is global::@System.@Object ? (global::@System.@Object)this.Value : default;
                 return this.Code == global::@Errorka.@Concept.@Outcome.Code.AccessDenied;
             }
+
+            public T Match<T>(Func<string, T> @UserNotExists, Func<object, T> @AccessDenied)
+            {
+                switch (Code)
+                {
+                    case Code.UserNotExists: return @UserNotExists(this.Value is global::@System.@String ? (global::@System.@String)this.Value : default);
+                    case Code.AccessDenied: return @AccessDenied(this.Value is global::@System.@Object ? (global::@System.@Object)this.Value : default);
+                    default: throw new Exception("Instance is broken. Code: " + Code);
+                }
+            }
+
+            public T Match<T>(T @default, Func<string, T>? @UserNotExists = null, Func<object, T>? @AccessDenied = null)
+            {
+                switch (Code)
+                {
+                    case Code.UserNotExists: return @UserNotExists == null ? @default : @UserNotExists(this.Value is global::@System.@String ? (global::@System.@String)this.Value : default);
+                    case Code.AccessDenied: return @AccessDenied == null ? @default : @AccessDenied(this.Value is global::@System.@Object ? (global::@System.@Object)this.Value : default);
+                    default: throw new Exception("Instance is broken. Code: " + Code);
+                }
+            }
+
             public global::@Errorka.@Concept.@Outcome.Result ToResult()
             {
                 return new global::@Errorka.@Concept.@Outcome.Result(this.Code, this.Value);
