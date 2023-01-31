@@ -313,13 +313,13 @@ namespace Errorka
                     var descriptor = new DiagnosticDescriptor(
                         "Errorka001",
                         "Internal source generator error",
-                        "Exception occured during source generation {0} with stacktrace {1}",
+                        "Exception occured during source generation {0}",
                         "Errorka.InternalError",
                         DiagnosticSeverity.Error,
                         isEnabledByDefault: true
                     );
                     context.ReportDiagnostic(
-                        Diagnostic.Create(descriptor, location: null, e, e.StackTrace)
+                        Diagnostic.Create(descriptor, location: null, e)
                     );
                 }
                 finally
