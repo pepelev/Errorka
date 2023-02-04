@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="5cm" height="5cm" version="1.1" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+ <defs>
+  <linearGradient id="linearGradient29038" x1="108.8" x2="67.75" y1="163.5" y2="-19.25" gradientUnits="userSpaceOnUse">
+   <stop stop-color="#7fa8ff" offset="0"/>
+   <stop stop-color="#3877ff" offset="1"/>
+  </linearGradient>
+ </defs>
+ <rect x="-10.75" y="-8.75" width="158.2" height="125.2" fill="url(#linearGradient29038)"/>
+ <path d="m-19.5 91.25c62.35-9.408 146.1-18.71 162.5 1 2.018 102.8-158.9 84.12-162.5-1z" fill="#008000"/>
+ <g transform="translate(-92.37 145.1)">
+  <g transform="matrix(1.625 0 0 1.625 -47.69 -149.9)">
+   <rect x="64" y="42.92" width="55.47" height="33.98" fill="#e6e6e6"/>
+   <rect x="64" y="42.92" width="55.47" height="3.256" fill="#413bff"/>
+  </g>
+  <g transform="matrix(1.619 0 0 1.619 -72.37 -99.8)" fill="#e72727">
+   <rect transform="rotate(45)" x="70.61" y="-47.4" width="29" height="2.9"/>
+   <rect transform="rotate(135)" x="-60.45" y="-86.56" width="29" height="2.9"/>
+  </g>
+  <g transform="matrix(1.625 0 0 1.625 -47.69 -149.9)">
+   <rect x="92.82" y="66.6" width="24.22" height="7.422" fill="#ccc" stroke="#b3b3b3" stroke-width=".7559"/>
+   <text x="94.411636" y="71.63678" font-family="sans-serif" font-size="4px" style="line-height:1.25" xml:space="preserve"><tspan x="94.411636" y="71.63678" font-size="4px">I don't care</tspan></text>
+   <text x="103.07991" y="72.607422" font-family="sans-serif" font-size=".9333px" style="line-height:1.25" xml:space="preserve"><tspan x="103.07991" y="72.607422">Just hide</tspan></text>
+  </g>
+  <g fill="#413bff">
+   <rect x="56.3" y="-76.44" width="1.731" height="51.55"/>
+   <rect x="144.7" y="-75.14" width="1.741" height="50.25"/>
+   <rect transform="rotate(90)" x="-26.62" y="-144.7" width="1.721" height="86.7"/>
+  </g>
+ </g>
+ <g transform="translate(-83.75 143.8)">
+  <g transform="matrix(1.625 0 0 1.625 -47.69 -149.9)">
+   <rect x="64" y="42.92" width="55.47" height="33.98" fill="#e6e6e6"/>
+   <rect x="64" y="42.92" width="55.47" height="3.256" fill="#413bff"/>
+  </g>
+  <g transform="matrix(1.619 0 0 1.619 -72.37 -99.8)" fill="#e72727">
+   <rect transform="rotate(45)" x="70.61" y="-47.4" width="29" height="2.9"/>
+   <rect transform="rotate(135)" x="-60.45" y="-86.56" width="29" height="2.9"/>
+  </g>
+  <g transform="matrix(1.625 0 0 1.625 -47.69 -149.9)">
+   <rect x="92.82" y="66.6" width="24.22" height="7.422" fill="#ccc" stroke="#b3b3b3" stroke-width=".7559"/>
+   <text x="94.411636" y="71.63678" font-family="sans-serif" font-size="4px" style="line-height:1.25" xml:space="preserve"><tspan x="94.411636" y="71.63678" font-size="4px">I don't care</tspan></text>
+   <text x="103.07991" y="72.607422" font-family="sans-serif" font-size=".9333px" style="line-height:1.25" xml:space="preserve"><tspan x="103.07991" y="72.607422">Just hide</tspan></text>
+  </g>
+  <g fill="#413bff">
+   <rect x="56.3" y="-76.44" width="1.731" height="51.55"/>
+   <rect x="144.7" y="-75.14" width="1.741" height="50.25"/>
+   <rect transform="rotate(90)" x="-26.62" y="-144.7" width="1.721" height="86.7"/>
+  </g>
+ </g>
+ <g transform="translate(-77.75 141.9)">
+  <g transform="matrix(1.625 0 0 1.625 -47.69 -149.9)">
+   <rect x="64" y="42.92" width="55.47" height="33.98" fill="#e6e6e6"/>
+   <rect x="64" y="42.92" width="55.47" height="3.256" fill="#413bff"/>
+  </g>
+  <g transform="matrix(1.619 0 0 1.619 -72.37 -99.8)" fill="#e72727">
+   <rect transform="rotate(45)" x="70.61" y="-47.4" width="29" height="2.9"/>
+   <rect transform="rotate(135)" x="-60.45" y="-86.56" width="29" height="2.9"/>
+  </g>
+  <g transform="matrix(1.625 0 0 1.625 -47.69 -149.9)">
+   <rect x="92.82" y="66.6" width="24.22" height="7.422" fill="#ccc" stroke="#b3b3b3" stroke-width=".7559"/>
+   <text x="94.411636" y="71.63678" font-family="sans-serif" font-size="4px" style="line-height:1.25" xml:space="preserve"><tspan x="94.411636" y="71.63678" font-size="4px">I don't care</tspan></text>
+   <text x="103.07991" y="72.607422" font-family="sans-serif" font-size=".9333px" style="line-height:1.25" xml:space="preserve"><tspan x="103.07991" y="72.607422">Just hide</tspan></text>
+  </g>
+  <g fill="#413bff">
+   <rect x="56.3" y="-76.44" width="1.731" height="51.55"/>
+   <rect x="144.7" y="-75.14" width="1.741" height="50.25"/>
+   <rect transform="rotate(90)" x="-26.62" y="-144.7" width="1.721" height="86.7"/>
+  </g>
+ </g>
+ <g transform="translate(-70.37 139.2)">
+  <g transform="matrix(1.625 0 0 1.625 -47.69 -149.9)">
+   <rect x="64" y="42.92" width="55.47" height="33.98" fill="#e6e6e6"/>
+   <rect x="64" y="42.92" width="55.47" height="3.256" fill="#413bff"/>
+  </g>
+  <g transform="matrix(1.619 0 0 1.619 -72.37 -99.8)" fill="#e72727">
+   <rect transform="rotate(45)" x="70.61" y="-47.4" width="29" height="2.9"/>
+   <rect transform="rotate(135)" x="-60.45" y="-86.56" width="29" height="2.9"/>
+  </g>
+  <g transform="matrix(1.625 0 0 1.625 -47.69 -149.9)">
+   <rect x="92.82" y="66.6" width="24.22" height="7.422" fill="#ccc" stroke="#b3b3b3" stroke-width=".7559"/>
+   <text x="94.411636" y="71.63678" font-family="sans-serif" font-size="4px" style="line-height:1.25" xml:space="preserve"><tspan x="94.411636" y="71.63678" font-size="4px">I don't care</tspan></text>
+   <text x="103.07991" y="72.607422" font-family="sans-serif" font-size=".9333px" style="line-height:1.25" xml:space="preserve"><tspan x="103.07991" y="72.607422">Just hide</tspan></text>
+  </g>
+  <g fill="#413bff">
+   <rect x="56.3" y="-76.44" width="1.731" height="51.55"/>
+   <rect x="144.7" y="-75.14" width="1.741" height="50.25"/>
+   <rect transform="rotate(90)" x="-26.62" y="-144.7" width="1.721" height="86.7"/>
+  </g>
+ </g>
+ <g transform="translate(-65.75 135.9)">
+  <g transform="matrix(1.625 0 0 1.625 -47.69 -149.9)">
+   <rect x="64" y="42.92" width="55.47" height="33.98" fill="#e6e6e6"/>
+   <rect x="64" y="42.92" width="55.47" height="3.256" fill="#413bff"/>
+  </g>
+  <g transform="matrix(1.619 0 0 1.619 -72.37 -99.8)" fill="#e72727">
+   <rect transform="rotate(45)" x="70.61" y="-47.4" width="29" height="2.9"/>
+   <rect transform="rotate(135)" x="-60.45" y="-86.56" width="29" height="2.9"/>
+  </g>
+  <g transform="matrix(1.625 0 0 1.625 -47.69 -149.9)">
+   <rect x="92.82" y="66.6" width="24.22" height="7.422" fill="#ccc" stroke="#b3b3b3" stroke-width=".7559"/>
+   <text x="94.411636" y="71.63678" font-family="sans-serif" font-size="4px" style="line-height:1.25" xml:space="preserve"><tspan x="94.411636" y="71.63678" font-size="4px">I don't care</tspan></text>
+   <text x="103.07991" y="72.607422" font-family="sans-serif" font-size=".9333px" style="line-height:1.25" xml:space="preserve"><tspan x="103.07991" y="72.607422">Just hide</tspan></text>
+  </g>
+  <g fill="#413bff">
+   <rect x="56.3" y="-76.44" width="1.731" height="51.55"/>
+   <rect x="144.7" y="-75.14" width="1.741" height="50.25"/>
+   <rect transform="rotate(90)" x="-26.62" y="-144.7" width="1.721" height="86.7"/>
+  </g>
+ </g>
+ <g transform="translate(-63.5 133.2)">
+  <g transform="matrix(1.625 0 0 1.625 -47.69 -149.9)">
+   <rect x="64" y="42.92" width="55.47" height="33.98" fill="#e6e6e6"/>
+   <rect x="64" y="42.92" width="55.47" height="3.256" fill="#413bff"/>
+  </g>
+  <g transform="matrix(1.619 0 0 1.619 -72.37 -99.8)" fill="#e72727">
+   <rect transform="rotate(45)" x="70.61" y="-47.4" width="29" height="2.9"/>
+   <rect transform="rotate(135)" x="-60.45" y="-86.56" width="29" height="2.9"/>
+  </g>
+  <g transform="matrix(1.625 0 0 1.625 -47.69 -149.9)">
+   <rect x="92.82" y="66.6" width="24.22" height="7.422" fill="#ccc" stroke="#b3b3b3" stroke-width=".7559"/>
+   <text x="94.411636" y="71.63678" font-family="sans-serif" font-size="4px" style="line-height:1.25" xml:space="preserve"><tspan x="94.411636" y="71.63678" font-size="4px">I don't care</tspan></text>
+   <text x="103.07991" y="72.607422" font-family="sans-serif" font-size=".9333px" style="line-height:1.25" xml:space="preserve"><tspan x="103.07991" y="72.607422">Just hide</tspan></text>
+  </g>
+  <g fill="#413bff">
+   <rect x="56.3" y="-76.44" width="1.731" height="51.55"/>
+   <rect x="144.7" y="-75.14" width="1.741" height="50.25"/>
+   <rect transform="rotate(90)" x="-26.62" y="-144.7" width="1.721" height="86.7"/>
+  </g>
+ </g>
+ <g transform="translate(-60.75 127.7)">
+  <g transform="matrix(1.625 0 0 1.625 -47.69 -149.9)">
+   <rect x="64" y="42.92" width="55.47" height="33.98" fill="#e6e6e6"/>
+   <rect x="64" y="42.92" width="55.47" height="3.256" fill="#413bff"/>
+  </g>
+  <g transform="matrix(1.619 0 0 1.619 -72.37 -99.8)" fill="#e72727">
+   <rect transform="rotate(45)" x="70.61" y="-47.4" width="29" height="2.9"/>
+   <rect transform="rotate(135)" x="-60.45" y="-86.56" width="29" height="2.9"/>
+  </g>
+  <g transform="matrix(1.625 0 0 1.625 -47.69 -149.9)">
+   <rect x="92.82" y="66.6" width="24.22" height="7.422" fill="#ccc" stroke="#b3b3b3" stroke-width=".7559"/>
+   <text x="94.411636" y="71.63678" font-family="sans-serif" font-size="4px" style="line-height:1.25" xml:space="preserve"><tspan x="94.411636" y="71.63678" font-size="4px">I don't care</tspan></text>
+   <text x="103.07991" y="72.607422" font-family="sans-serif" font-size=".9333px" style="line-height:1.25" xml:space="preserve"><tspan x="103.07991" y="72.607422">Just hide</tspan></text>
+  </g>
+  <g fill="#413bff">
+   <rect x="56.3" y="-76.44" width="1.731" height="51.55"/>
+   <rect x="144.7" y="-75.14" width="1.741" height="50.25"/>
+   <rect transform="rotate(90)" x="-26.62" y="-144.7" width="1.721" height="86.7"/>
+  </g>
+ </g>
+ <g transform="translate(-58.5 122.4)">
+  <g transform="matrix(1.625 0 0 1.625 -47.69 -149.9)">
+   <rect x="64" y="42.92" width="55.47" height="33.98" fill="#e6e6e6"/>
+   <rect x="64" y="42.92" width="55.47" height="3.256" fill="#413bff"/>
+  </g>
+  <g transform="matrix(1.619 0 0 1.619 -72.37 -99.8)" fill="#e72727">
+   <rect transform="rotate(45)" x="70.61" y="-47.4" width="29" height="2.9"/>
+   <rect transform="rotate(135)" x="-60.45" y="-86.56" width="29" height="2.9"/>
+  </g>
+  <g transform="matrix(1.625 0 0 1.625 -47.69 -149.9)">
+   <rect x="92.82" y="66.6" width="24.22" height="7.422" fill="#ccc" stroke="#b3b3b3" stroke-width=".7559"/>
+   <text x="94.411636" y="71.63678" font-family="sans-serif" font-size="4px" style="line-height:1.25" xml:space="preserve"><tspan x="94.411636" y="71.63678" font-size="4px">I don't care</tspan></text>
+   <text x="103.07991" y="72.607422" font-family="sans-serif" font-size=".9333px" style="line-height:1.25" xml:space="preserve"><tspan x="103.07991" y="72.607422">Just hide</tspan></text>
+  </g>
+  <g fill="#413bff">
+   <rect x="56.3" y="-76.44" width="1.731" height="51.55"/>
+   <rect x="144.7" y="-75.14" width="1.741" height="50.25"/>
+   <rect transform="rotate(90)" x="-26.62" y="-144.7" width="1.721" height="86.7"/>
+  </g>
+ </g>
+ <g transform="translate(-56.5 115.7)">
+  <g transform="matrix(1.625 0 0 1.625 -47.69 -149.9)">
+   <rect x="64" y="42.92" width="55.47" height="33.98" fill="#e6e6e6"/>
+   <rect x="64" y="42.92" width="55.47" height="3.256" fill="#413bff"/>
+  </g>
+  <g transform="matrix(1.619 0 0 1.619 -72.37 -99.8)" fill="#e72727">
+   <rect transform="rotate(45)" x="70.61" y="-47.4" width="29" height="2.9"/>
+   <rect transform="rotate(135)" x="-60.45" y="-86.56" width="29" height="2.9"/>
+  </g>
+  <g transform="matrix(1.625 0 0 1.625 -47.69 -149.9)">
+   <rect x="92.82" y="66.6" width="24.22" height="7.422" fill="#ccc" stroke="#b3b3b3" stroke-width=".7559"/>
+   <text x="94.411636" y="71.63678" font-family="sans-serif" font-size="4px" style="line-height:1.25" xml:space="preserve"><tspan x="94.411636" y="71.63678" font-size="4px">I don't care</tspan></text>
+   <text x="103.07991" y="72.607422" font-family="sans-serif" font-size=".9333px" style="line-height:1.25" xml:space="preserve"><tspan x="103.07991" y="72.607422">Just hide</tspan></text>
+  </g>
+  <g fill="#413bff">
+   <rect x="56.3" y="-76.44" width="1.731" height="51.55"/>
+   <rect x="144.7" y="-75.14" width="1.741" height="50.25"/>
+   <rect transform="rotate(90)" x="-26.62" y="-144.7" width="1.721" height="86.7"/>
+  </g>
+ </g>
+ <g transform="translate(-54.5 108.7)">
+  <g transform="matrix(1.625 0 0 1.625 -47.69 -149.9)">
+   <rect x="64" y="42.92" width="55.47" height="33.98" fill="#e6e6e6"/>
+   <rect x="64" y="42.92" width="55.47" height="3.256" fill="#413bff"/>
+  </g>
+  <g transform="matrix(1.619 0 0 1.619 -72.37 -99.8)" fill="#e72727">
+   <rect transform="rotate(45)" x="70.61" y="-47.4" width="29" height="2.9"/>
+   <rect transform="rotate(135)" x="-60.45" y="-86.56" width="29" height="2.9"/>
+  </g>
+  <g transform="matrix(1.625 0 0 1.625 -47.69 -149.9)">
+   <rect x="92.82" y="66.6" width="24.22" height="7.422" fill="#ccc" stroke="#b3b3b3" stroke-width=".7559"/>
+   <text x="94.411636" y="71.63678" font-family="sans-serif" font-size="4px" style="line-height:1.25" xml:space="preserve"><tspan x="94.411636" y="71.63678" font-size="4px">I don't care</tspan></text>
+   <text x="103.07991" y="72.607422" font-family="sans-serif" font-size=".9333px" style="line-height:1.25" xml:space="preserve"><tspan x="103.07991" y="72.607422">Just hide</tspan></text>
+  </g>
+  <g fill="#413bff">
+   <rect x="56.3" y="-76.44" width="1.731" height="51.55"/>
+   <rect x="144.7" y="-75.14" width="1.741" height="50.25"/>
+   <rect transform="rotate(90)" x="-26.62" y="-144.7" width="1.721" height="86.7"/>
+  </g>
+ </g>
+ <g transform="translate(-52 100.9)">
+  <g transform="matrix(1.625 0 0 1.625 -47.69 -149.9)">
+   <rect x="64" y="42.92" width="55.47" height="33.98" fill="#e6e6e6"/>
+   <rect x="64" y="42.92" width="55.47" height="3.256" fill="#413bff"/>
+  </g>
+  <g transform="matrix(1.619 0 0 1.619 -72.37 -99.8)" fill="#e72727">
+   <rect transform="rotate(45)" x="70.61" y="-47.4" width="29" height="2.9"/>
+   <rect transform="rotate(135)" x="-60.45" y="-86.56" width="29" height="2.9"/>
+  </g>
+  <g transform="matrix(1.625 0 0 1.625 -47.69 -149.9)">
+   <rect x="92.82" y="66.6" width="24.22" height="7.422" fill="#ccc" stroke="#b3b3b3" stroke-width=".7559"/>
+   <text x="94.411636" y="71.63678" font-family="sans-serif" font-size="4px" style="line-height:1.25" xml:space="preserve"><tspan x="94.411636" y="71.63678" font-size="4px">I don't care</tspan></text>
+   <text x="103.07991" y="72.607422" font-family="sans-serif" font-size=".9333px" style="line-height:1.25" xml:space="preserve"><tspan x="103.07991" y="72.607422">Just hide</tspan></text>
+  </g>
+  <g fill="#413bff">
+   <rect x="56.3" y="-76.44" width="1.731" height="51.55"/>
+   <rect x="144.7" y="-75.14" width="1.741" height="50.25"/>
+   <rect transform="rotate(90)" x="-26.62" y="-144.7" width="1.721" height="86.7"/>
+  </g>
+ </g>
+ <g transform="translate(-48 94.94)">
+  <g transform="matrix(1.625 0 0 1.625 -47.69 -149.9)">
+   <rect x="64" y="42.92" width="55.47" height="33.98" fill="#e6e6e6"/>
+   <rect x="64" y="42.92" width="55.47" height="3.256" fill="#413bff"/>
+  </g>
+  <g transform="matrix(1.619 0 0 1.619 -72.37 -99.8)" fill="#e72727">
+   <rect transform="rotate(45)" x="70.61" y="-47.4" width="29" height="2.9"/>
+   <rect transform="rotate(135)" x="-60.45" y="-86.56" width="29" height="2.9"/>
+  </g>
+  <g transform="matrix(1.625 0 0 1.625 -47.69 -149.9)">
+   <rect x="92.82" y="66.6" width="24.22" height="7.422" fill="#ccc" stroke="#b3b3b3" stroke-width=".7559"/>
+   <text x="94.411636" y="71.63678" font-family="sans-serif" font-size="4px" style="line-height:1.25" xml:space="preserve"><tspan x="94.411636" y="71.63678" font-size="4px">I don't care</tspan></text>
+   <text x="103.07991" y="72.607422" font-family="sans-serif" font-size=".9333px" style="line-height:1.25" xml:space="preserve"><tspan x="103.07991" y="72.607422">Just hide</tspan></text>
+  </g>
+  <g fill="#413bff">
+   <rect x="56.3" y="-76.44" width="1.731" height="51.55"/>
+   <rect x="144.7" y="-75.14" width="1.741" height="50.25"/>
+   <rect transform="rotate(90)" x="-26.62" y="-144.7" width="1.721" height="86.7"/>
+  </g>
+ </g>
+ <g transform="translate(-43.25 90.94)">
+  <g transform="matrix(1.625 0 0 1.625 -47.69 -149.9)">
+   <rect x="64" y="42.92" width="55.47" height="33.98" fill="#e6e6e6"/>
+   <rect x="64" y="42.92" width="55.47" height="3.256" fill="#413bff"/>
+  </g>
+  <g transform="matrix(1.619 0 0 1.619 -72.37 -99.8)" fill="#e72727">
+   <rect transform="rotate(45)" x="70.61" y="-47.4" width="29" height="2.9"/>
+   <rect transform="rotate(135)" x="-60.45" y="-86.56" width="29" height="2.9"/>
+  </g>
+  <g transform="matrix(1.625 0 0 1.625 -47.69 -149.9)">
+   <rect x="92.82" y="66.6" width="24.22" height="7.422" fill="#ccc" stroke="#b3b3b3" stroke-width=".7559"/>
+   <text x="94.411636" y="71.63678" font-family="sans-serif" font-size="4px" style="line-height:1.25" xml:space="preserve"><tspan x="94.411636" y="71.63678" font-size="4px">I don't care</tspan></text>
+   <text x="103.07991" y="72.607422" font-family="sans-serif" font-size=".9333px" style="line-height:1.25" xml:space="preserve"><tspan x="103.07991" y="72.607422">Just hide</tspan></text>
+  </g>
+  <g fill="#413bff">
+   <rect x="56.3" y="-76.44" width="1.731" height="51.55"/>
+   <rect x="144.7" y="-75.14" width="1.741" height="50.25"/>
+   <rect transform="rotate(90)" x="-26.62" y="-144.7" width="1.721" height="86.7"/>
+  </g>
+ </g>
+ <g transform="translate(-38 88.19)">
+  <g transform="matrix(1.625 0 0 1.625 -47.69 -149.9)">
+   <rect x="64" y="42.92" width="55.47" height="33.98" fill="#e6e6e6"/>
+   <rect x="64" y="42.92" width="55.47" height="3.256" fill="#413bff"/>
+  </g>
+  <g transform="matrix(1.619 0 0 1.619 -72.37 -99.8)" fill="#e72727">
+   <rect transform="rotate(45)" x="70.61" y="-47.4" width="29" height="2.9"/>
+   <rect transform="rotate(135)" x="-60.45" y="-86.56" width="29" height="2.9"/>
+  </g>
+  <g transform="matrix(1.625 0 0 1.625 -47.69 -149.9)">
+   <rect x="92.82" y="66.6" width="24.22" height="7.422" fill="#ccc" stroke="#b3b3b3" stroke-width=".7559"/>
+   <text x="94.411636" y="71.63678" font-family="sans-serif" font-size="4px" style="line-height:1.25" xml:space="preserve"><tspan x="94.411636" y="71.63678" font-size="4px">I don't care</tspan></text>
+   <text x="103.07991" y="72.607422" font-family="sans-serif" font-size=".9333px" style="line-height:1.25" xml:space="preserve"><tspan x="103.07991" y="72.607422">Just hide</tspan></text>
+  </g>
+  <g fill="#413bff">
+   <rect x="56.3" y="-76.44" width="1.731" height="51.55"/>
+   <rect x="144.7" y="-75.14" width="1.741" height="50.25"/>
+   <rect transform="rotate(90)" x="-26.62" y="-144.7" width="1.721" height="86.7"/>
+  </g>
+ </g>
+ <g transform="translate(-32.25 87.19)">
+  <g transform="matrix(1.625 0 0 1.625 -47.69 -149.9)">
+   <rect x="64" y="42.92" width="55.47" height="33.98" fill="#e6e6e6"/>
+   <rect x="64" y="42.92" width="55.47" height="3.256" fill="#413bff"/>
+  </g>
+  <g transform="matrix(1.619 0 0 1.619 -72.37 -99.8)" fill="#e72727">
+   <rect transform="rotate(45)" x="70.61" y="-47.4" width="29" height="2.9"/>
+   <rect transform="rotate(135)" x="-60.45" y="-86.56" width="29" height="2.9"/>
+  </g>
+  <g transform="matrix(1.625 0 0 1.625 -47.69 -149.9)">
+   <rect x="92.82" y="66.6" width="24.22" height="7.422" fill="#ccc" stroke="#b3b3b3" stroke-width=".7559"/>
+   <text x="94.411636" y="71.63678" font-family="sans-serif" font-size="4px" style="line-height:1.25" xml:space="preserve"><tspan x="94.411636" y="71.63678" font-size="4px">I don't care</tspan></text>
+   <text x="103.07991" y="72.607422" font-family="sans-serif" font-size=".9333px" style="line-height:1.25" xml:space="preserve"><tspan x="103.07991" y="72.607422">Just hide</tspan></text>
+  </g>
+  <g fill="#413bff">
+   <rect x="56.3" y="-76.44" width="1.731" height="51.55"/>
+   <rect x="144.7" y="-75.14" width="1.741" height="50.25"/>
+   <rect transform="rotate(90)" x="-26.62" y="-144.7" width="1.721" height="86.7"/>
+  </g>
+ </g>
+ <g transform="translate(-26.75 87.94)">
+  <g transform="matrix(1.625 0 0 1.625 -47.69 -149.9)">
+   <rect x="64" y="42.92" width="55.47" height="33.98" fill="#e6e6e6"/>
+   <rect x="64" y="42.92" width="55.47" height="3.256" fill="#413bff"/>
+  </g>
+  <g transform="matrix(1.619 0 0 1.619 -72.37 -99.8)" fill="#e72727">
+   <rect transform="rotate(45)" x="70.61" y="-47.4" width="29" height="2.9"/>
+   <rect transform="rotate(135)" x="-60.45" y="-86.56" width="29" height="2.9"/>
+  </g>
+  <g transform="matrix(1.625 0 0 1.625 -47.69 -149.9)">
+   <rect x="92.82" y="66.6" width="24.22" height="7.422" fill="#ccc" stroke="#b3b3b3" stroke-width=".7559"/>
+   <text x="94.411636" y="71.63678" font-family="sans-serif" font-size="4px" style="line-height:1.25" xml:space="preserve"><tspan x="94.411636" y="71.63678" font-size="4px">I don't care</tspan></text>
+   <text x="103.07991" y="72.607422" font-family="sans-serif" font-size=".9333px" style="line-height:1.25" xml:space="preserve"><tspan x="103.07991" y="72.607422">Just hide</tspan></text>
+  </g>
+  <g fill="#413bff">
+   <rect x="56.3" y="-76.44" width="1.731" height="51.55"/>
+   <rect x="144.7" y="-75.14" width="1.741" height="50.25"/>
+   <rect transform="rotate(90)" x="-26.62" y="-144.7" width="1.721" height="86.7"/>
+  </g>
+ </g>
+ <g transform="translate(-23.12 90.94)">
+  <g transform="matrix(1.625 0 0 1.625 -47.69 -149.9)">
+   <rect x="64" y="42.92" width="55.47" height="33.98" fill="#e6e6e6"/>
+   <rect x="64" y="42.92" width="55.47" height="3.256" fill="#413bff"/>
+  </g>
+  <g transform="matrix(1.619 0 0 1.619 -72.37 -99.8)" fill="#e72727">
+   <rect transform="rotate(45)" x="70.61" y="-47.4" width="29" height="2.9"/>
+   <rect transform="rotate(135)" x="-60.45" y="-86.56" width="29" height="2.9"/>
+  </g>
+  <g transform="matrix(1.625 0 0 1.625 -47.69 -149.9)">
+   <rect x="92.82" y="66.6" width="24.22" height="7.422" fill="#ccc" stroke="#b3b3b3" stroke-width=".7559"/>
+   <text x="94.411636" y="71.63678" font-family="sans-serif" font-size="4px" style="line-height:1.25" xml:space="preserve"><tspan x="94.411636" y="71.63678" font-size="4px">I don't care</tspan></text>
+   <text x="103.07991" y="72.607422" font-family="sans-serif" font-size=".9333px" style="line-height:1.25" xml:space="preserve"><tspan x="103.07991" y="72.607422">Just hide</tspan></text>
+  </g>
+  <g fill="#413bff">
+   <rect x="56.3" y="-76.44" width="1.731" height="51.55"/>
+   <rect x="144.7" y="-75.14" width="1.741" height="50.25"/>
+   <rect transform="rotate(90)" x="-26.62" y="-144.7" width="1.721" height="86.7"/>
+  </g>
+ </g>
+ <g transform="translate(-20.02 94.19)">
+  <g transform="matrix(1.625 0 0 1.625 -47.69 -149.9)">
+   <rect x="64" y="42.92" width="55.47" height="33.98" fill="#e6e6e6"/>
+   <rect x="64" y="42.92" width="55.47" height="3.256" fill="#413bff"/>
+  </g>
+  <g transform="matrix(1.619 0 0 1.619 -72.37 -99.8)" fill="#e72727">
+   <rect transform="rotate(45)" x="70.61" y="-47.4" width="29" height="2.9"/>
+   <rect transform="rotate(135)" x="-60.45" y="-86.56" width="29" height="2.9"/>
+  </g>
+  <g transform="matrix(1.625 0 0 1.625 -47.69 -149.9)">
+   <rect x="92.82" y="66.6" width="24.22" height="7.422" fill="#ccc" stroke="#b3b3b3" stroke-width=".7559"/>
+   <text x="94.411636" y="71.63678" font-family="sans-serif" font-size="4px" style="line-height:1.25" xml:space="preserve"><tspan x="94.411636" y="71.63678" font-size="4px">I don't care</tspan></text>
+   <text x="103.07991" y="72.607422" font-family="sans-serif" font-size=".9333px" style="line-height:1.25" xml:space="preserve"><tspan x="103.07991" y="72.607422">Just hide</tspan></text>
+  </g>
+  <g fill="#413bff">
+   <rect x="56.3" y="-76.44" width="1.731" height="51.55"/>
+   <rect x="144.7" y="-75.14" width="1.741" height="50.25"/>
+   <rect transform="rotate(90)" x="-26.62" y="-144.7" width="1.721" height="86.7"/>
+  </g>
+ </g>
+</svg>
