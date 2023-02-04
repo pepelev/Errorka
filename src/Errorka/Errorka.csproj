@@ -68,4 +68,9 @@
         <None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
     </ItemGroup>
 
+    <!-- Import icon -->
+    <ItemGroup>
+        <None Include="$(PackageIconFullPath)" Pack="true" PackagePath="\" />
+    </ItemGroup>
+
 </Project>
