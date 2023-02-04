@@ -20,7 +20,7 @@ jobs:
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 6.0.13
+        dotnet-version: 6.0.405
 
     - name: Test
       run: dotnet test --configuration Debug --verbosity normal Errorka.Tests
@@ -36,7 +36,7 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 6.0.13
+        dotnet-version: 6.0.405
 
     - name: Publish on version change
       id: publish_nuget
